@@ -4,11 +4,13 @@ const User = require('../models/User');
 const authMiddleware = async (req, res, next) => {
   try {
     // Check if the Authorization header is present
-    const token = req.header('Authorization');
-
+    let token = req.header('Authorization');
+    
     if (!token) {
       return res.status(401).json({ message: 'Authorization token not provided' });
     }
+    token = token.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Verify the token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
