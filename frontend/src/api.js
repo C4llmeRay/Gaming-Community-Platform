@@ -48,7 +48,6 @@ const loginUser = async (userData) => {
   }
 };
 
-
 // Function to get user profile
 const getUserProfile = async (userId) => {
   try {
@@ -73,4 +72,99 @@ const setLoggedInUser = (token) => {
   setAuthToken(token);
 };
 
-export { setAuthToken, registerUser, loginUser, getUserProfile, updateUserProfile, setLoggedInUser };
+// Function to create a gaming group
+const createGamingGroup = async (groupData) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups`, groupData);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to get group details by ID
+const getGroupDetails = async (groupId) => {
+  try {
+    const response = await axios.get(`${baseURL}/groups/${groupId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to join a gaming group
+const joinGroup = async (groupId) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups/${groupId}/join`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to leave a gaming group
+const leaveGroup = async (groupId) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups/${groupId}/leave`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to kick a member from a gaming group
+const kickMember = async (groupId, memberId) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups/${groupId}/kick`, { memberId });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to promote a member to moderator in a gaming group
+const promoteMember = async (groupId, memberId) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups/${groupId}/promote`, { memberId });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to demote a moderator back to a regular member in a gaming group
+const demoteMember = async (groupId, memberId) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups/${groupId}/demote`, { memberId });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to transfer ownership of a gaming group
+const transferOwnership = async (groupId, newOwnerId) => {
+  try {
+    const response = await axios.post(`${baseURL}/groups/${groupId}/transfer-ownership`, { newOwnerId });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export {
+  setAuthToken,
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+  setLoggedInUser,
+  createGamingGroup,
+  getGroupDetails,
+  joinGroup,
+  leaveGroup,
+  kickMember,
+  promoteMember,
+  demoteMember,
+  transferOwnership,
+};
