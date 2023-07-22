@@ -60,6 +60,7 @@ exports.leaveGroup = async (req, res) => {
     const group = req.group;
     const user = req.user;
 
+
     // Check if the user is a member of the group
     if (!group.members.includes(user._id)) {
       return res.status(400).json({ message: 'You are not a member of this group' });
@@ -74,6 +75,8 @@ exports.leaveGroup = async (req, res) => {
     res.status(500).json({ message: 'Failed to leave the group' });
   }
 };
+
+
 
 exports.transferOwnership = async (req, res) => {
   try {
