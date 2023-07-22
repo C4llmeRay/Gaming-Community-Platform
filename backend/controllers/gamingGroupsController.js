@@ -1,5 +1,6 @@
 const GamingGroup = require('../models/GamingGroup');
 
+
 exports.createGroup = async (req, res) => {
   try {
     const owner = req.user._id;
@@ -103,7 +104,9 @@ exports.transferOwnership = async (req, res) => {
 exports.kickMember = async (req, res) => {
   try {
     const groupId = req.params.groupId;
-    const memberId = req.params.memberId;
+    const memberId = req.body.memberId;
+    console.log("Group ID received:", groupId);
+    console.log("Member ID received:", memberId);
 
     // Find the group by ID
     const group = await GamingGroup.findById(groupId);
@@ -119,12 +122,13 @@ exports.kickMember = async (req, res) => {
     }
 
     // Check if the member to be kicked is in the group
-    if (!group.members.includes(memberId)) {
+    const memberIndex = group.members.findIndex(member => member._id.toString() === memberId);
+    if (memberIndex === -1) {
       return res.status(404).json({ message: 'Member not found in the group' });
     }
 
     // Remove the member from the group's members array
-    group.members = group.members.filter((member) => member.toString() !== memberId);
+    group.members.splice(memberIndex, 1);
     await group.save();
 
     res.status(200).json({ message: 'Member has been removed from the group' });
@@ -137,7 +141,9 @@ exports.kickMember = async (req, res) => {
 exports.promoteMember = async (req, res) => {
   try {
     const groupId = req.params.groupId;
-    const memberId = req.params.memberId;
+    const memberId = req.body.memberId;
+    console.log("Group ID received:", groupId);
+    console.log("Member ID received:", memberId);
 
     // Find the group by ID
     const group = await GamingGroup.findById(groupId);
@@ -153,7 +159,8 @@ exports.promoteMember = async (req, res) => {
     }
 
     // Check if the member to be promoted is in the group
-    if (!group.members.includes(memberId)) {
+    const memberIndex = group.members.findIndex(member => member._id.toString() === memberId);
+    if (memberIndex === -1) {
       return res.status(404).json({ message: 'Member not found in the group' });
     }
 
@@ -173,12 +180,10 @@ exports.promoteMember = async (req, res) => {
   }
 };
 
-// gamingGroupsController.js
-
 exports.demoteMember = async (req, res) => {
   try {
     const groupId = req.params.groupId;
-    const memberId = req.params.memberId;
+    const memberId = req.body.memberId;
 
     // Find the group by ID
     const group = await GamingGroup.findById(groupId);
@@ -201,6 +206,7 @@ exports.demoteMember = async (req, res) => {
     // Check if the member is not a moderator
     if (!group.moderators.includes(memberId)) {
       return res.status(409).json({ message: 'Member is not a moderator' });
+      
     }
 
     // Demote the member from a moderator to a regular member

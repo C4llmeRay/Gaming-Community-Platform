@@ -49,9 +49,13 @@ const loginUser = async (userData) => {
 };
 
 // Function to get user profile
-const getUserProfile = async (userId) => {
+const getUserProfile = async () => {
   try {
-    const response = await axios.get(`${baseURL}/users/${userId}`);
+    const response = await axios.get(`${baseURL}/users/profile`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -114,8 +118,11 @@ const leaveGroup = async (groupId) => {
 
 // Function to kick a member from a gaming group
 const kickMember = async (groupId, memberId) => {
+  
   try {
     const response = await axios.post(`${baseURL}/groups/${groupId}/kick`, { memberId });
+    
+
     return response.data;
   } catch (error) {
     throw error.response.data;
