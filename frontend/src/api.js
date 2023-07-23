@@ -169,6 +169,15 @@ const sendChatMessage = async (message) => {
   }
 };
 
+const deleteChatMessage = async (messageId) => {
+  try {
+    const response = await axios.delete(`${baseURL}/chatMessages/${messageId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export {
   setAuthToken,
   registerUser,
@@ -185,4 +194,5 @@ export {
   demoteMember,
   transferOwnership,
   sendChatMessage,
+  deleteChatMessage,
 };

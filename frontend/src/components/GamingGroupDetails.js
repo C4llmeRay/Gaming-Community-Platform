@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getGroupDetails, getUserProfile, leaveGroup, kickMember, promoteMember, demoteMember, transferOwnership, joinGroup, sendChatMessage } from '../api';
+import { getGroupDetails, getUserProfile, leaveGroup, kickMember, promoteMember, demoteMember, transferOwnership, joinGroup, sendChatMessage, deleteChatMessage } from '../api';
 import { io } from 'socket.io-client';
 
 const GamingGroupDetails = () => {
@@ -9,8 +9,8 @@ const GamingGroupDetails = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
-  
 
+  
   
 
   useEffect(() => {
@@ -55,6 +55,12 @@ const GamingGroupDetails = () => {
     } catch (error) {
       console.error('Error sending chat message:', error);
     }
+  };
+
+  // Function to format the timestamp to a human-readable format
+  const formatTimestamp = (timestamp) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Date(timestamp).toLocaleDateString(undefined, options);
   };
 
  // UseEffect to listen for incoming messages and fetch usernames
@@ -136,6 +142,24 @@ const GamingGroupDetails = () => {
       console.error('Error joining or leaving group:', error);
     }
   };
+  
+  const handleDeleteMessage = async (messageId) => {
+  try {
+    // Delete the message from the server
+    await deleteChatMessage(messageId);
+
+    // Update the state to remove the deleted message from the UI for real-time messages
+    setChatMessages((prevMessages) => prevMessages.filter((message) => message._id !== messageId));
+
+    // Update the state of groupDetails to remove the deleted message from historical messages
+    setGroupDetails((prevDetails) => ({
+      ...prevDetails,
+      chatMessages: prevDetails.chatMessages.filter((message) => message._id !== messageId),
+    }));
+  } catch (error) {
+    console.error('Error deleting chat message:', error);
+  }
+};
 
   if (!groupDetails) {
     return <div>Loading...</div>;
@@ -145,6 +169,8 @@ const GamingGroupDetails = () => {
   const allMessages = [...groupDetails.chatMessages, ...chatMessages].sort(
     (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
   );
+
+  
   return (
     <div>
       <h2>Gaming Group Details</h2>
@@ -189,8 +215,7 @@ const GamingGroupDetails = () => {
           </li>
         ))}
       </ul>
-
-  {/* Display chat messages */}
+      {/* Display chat messages */}
       <div>
         <h3>Chat Messages:</h3>
         {allMessages.length === 0 ? (
@@ -198,7 +223,14 @@ const GamingGroupDetails = () => {
         ) : (
           allMessages.map((message, index) => (
             <div key={index}>
-              <p>{message.sender?.username || 'Unknown'}: {message.text}</p>
+              <p>
+                {message.sender?.username || 'Unknown'}: {message.text}
+                <br />
+                <small>{formatTimestamp(message.createdAt)}</small> {/* Display the timestamp */}
+                {currentUser && currentUser._id === message.sender?._id && (
+                  <button onClick={() => handleDeleteMessage(message._id)}>Delete</button>
+                )}
+              </p>
             </div>
           ))
         )}
