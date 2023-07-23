@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getGroupDetails, getUserProfile, leaveGroup, kickMember, promoteMember, demoteMember, transferOwnership, joinGroup, sendChatMessage } from '../api';
 import { io } from 'socket.io-client';
 
 const GamingGroupDetails = () => {
   const { groupId } = useParams();
-  const navigate = useNavigate();
   const [groupDetails, setGroupDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
-  const [usernames, setUsernames] = useState({});
+  
+
   
 
   useEffect(() => {
@@ -57,12 +57,21 @@ const GamingGroupDetails = () => {
     }
   };
 
- // UseEffect to listen for incoming messages
+ // UseEffect to listen for incoming messages and fetch usernames
   useEffect(() => {
     if (socket) {
-      socket.on('message', (message) => {
+      socket.on('message', async (message) => {
         console.log('Received message:', message);
-        setChatMessages((prevMessages) => [...prevMessages, message]);
+
+        // Fetch the username for the new message sender
+        const userProfile = await getUserProfile(message.sender);
+        const newUsername = userProfile.username;
+
+        // Update the chatMessages state with the new message and the sender's username
+        setChatMessages((prevMessages) => [
+          ...prevMessages,
+          { ...message, sender: { ...message.sender, username: newUsername } },
+        ]);
       });
     }
   }, [socket]);
@@ -187,7 +196,7 @@ const GamingGroupDetails = () => {
         {allMessages.length === 0 ? (
           <p>No messages</p>
         ) : (
-          allMessages.map((message, index ) => (
+          allMessages.map((message, index) => (
             <div key={index}>
               <p>{message.sender?.username || 'Unknown'}: {message.text}</p>
             </div>
