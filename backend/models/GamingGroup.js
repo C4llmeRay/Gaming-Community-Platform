@@ -34,6 +34,10 @@ const gamingGroupSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  chatMessages: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ChatMessage',
+  }],
 }, { timestamps: true });
 
 const GamingGroup = mongoose.model('GamingGroup', gamingGroupSchema);

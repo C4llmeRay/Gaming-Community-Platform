@@ -5,11 +5,12 @@ const gamingGroupsController = require('../controllers/gamingGroupsController');
 const GamingGroup = require('../models/GamingGroup');
 
 
-// Middleware to get the group by ID
+// Middleware to get the group by ID  
 const getGroupById = async (req, res, next) => {
   try {
     const groupId = req.params.groupId;
-    const group = await GamingGroup.findById(groupId);
+    const group = await GamingGroup.findById(groupId)
+    console.log('group', group)
 
     if (!group) {
       return res.status(404).json({ message: 'Group not found' });

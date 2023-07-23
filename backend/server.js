@@ -4,9 +4,10 @@ const connectDB = require('./config/database');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const gamingGroupsRoutes = require('./routes/gamingGroups');
+const chatMessagesRoutes = require('./routes/chatMessages'); // Import the new route
 const dotenv = require('dotenv');
 const http = require('http');
-const chatSocket = require('./sockets/chatSocket');
+const { chatSocket } = require('./sockets/chatSocket'); // Destructure chatSocket from the module
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ connectDB();
 app.use('/auth', authRoutes); // User authentication routes
 app.use('/users', userRoutes); // User profile routes
 app.use('/groups', gamingGroupsRoutes); // Gaming groups routes
+app.use('/chatMessages', chatMessagesRoutes); // Use the new route for chat messages
 
 // Create an HTTP server using the Express app
 const server = http.createServer(app);

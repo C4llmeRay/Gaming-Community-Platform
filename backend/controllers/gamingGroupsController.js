@@ -25,12 +25,27 @@ exports.createGroup = async (req, res) => {
 
 exports.getGroupDetails = async (req, res) => {
   try {
-    const group = await GamingGroup.findById(req.params.groupId).populate('members');
+    const group = await GamingGroup.findById(req.params.groupId)
+    .populate('members')
+    .populate({ 
+     path: 'chatMessages',
+     populate: {
+       path: 'sender',
+       model: 'User'
+     } 
+  })
+
+      // .populate('members')
+      // .populate('chatMessages'); 
+
+
     if (!group) {
       return res.status(404).json({ message: 'Group not found.' });
     }
+
     res.json(group);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Failed to fetch group details.' });
   }
 };

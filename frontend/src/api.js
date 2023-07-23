@@ -159,6 +159,16 @@ const transferOwnership = async (groupId, newOwnerId) => {
   }
 };
 
+// Function to send a chat message
+const sendChatMessage = async (message) => {
+  try {
+    const response = await axios.post(`${baseURL}/chatMessages`, message);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to send chat message');
+  }
+};
+
 export {
   setAuthToken,
   registerUser,
@@ -174,4 +184,5 @@ export {
   promoteMember,
   demoteMember,
   transferOwnership,
+  sendChatMessage,
 };
