@@ -6,7 +6,6 @@ import { getOtherUserProfile, sendFriendRequest, followUser, unfollowUser } from
 const UserProfile = () => {
   const { userId } = useParams();
   const [userProfile, setUserProfile] = useState(null);
-  const [isFriend, setIsFriend] = useState(false);
   const [isCurrentUserFollowing, setIsCurrentUserFollowing] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null); // Declare currentUserId state
 
@@ -25,8 +24,7 @@ const UserProfile = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await getOtherUserProfile(userId);
-        setUserProfile(response);
-        setIsFriend(response.isFriend);
+        setUserProfile(response);;
         setIsCurrentUserFollowing(response.followers.includes(currentUserId));
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -75,26 +73,29 @@ const UserProfile = () => {
 
   return (
     <div>
-      <h2>User Profile</h2>
-      <p>Username: {userProfile.username}</p>
-      <p>Gaming Preferences: {userProfile.gamingPreferences.join(', ')}</p>
-      <p>Number of Friends: {userProfile.friends.length}</p>
-      <p>Number of Followers: {userProfile.followers.length}</p>
+    <h2>User Profile</h2>
+    <p>Username: {userProfile.username}</p>
+    <p>Gaming Preferences: {userProfile.gamingPreferences.join(', ')}</p>
+    <p>Number of Friends: {userProfile.friends.length}</p>
+    <p>Number of Followers: {userProfile.followers.length}</p>
 
-      {isFriend ? (
-        <p>You are friends with this user</p>
-      ) : (
-        <>
+    {userProfile.friends.includes(currentUserId) ? (
+      <p>Already Friends</p>
+    ) : (
+      <>
+        {userProfile._id !== currentUserId && (
+          // Render the "Send Friend Request" button only if the user is not viewing their own profile
           <button onClick={handleSendFriendRequest}>Send Friend Request</button>
-          {isCurrentUserFollowing ? (
-            <button onClick={handleUnfollowUser}>Unfollow</button>
-          ) : (
-            <button onClick={handleFollowUser}>Follow</button>
-          )}
-        </>
-      )}
-    </div>
-  );
+        )}
+        {isCurrentUserFollowing ? (
+          <button onClick={handleUnfollowUser}>Unfollow</button>
+        ) : (
+          <button onClick={handleFollowUser}>Follow</button>
+        )}
+      </>
+    )}
+  </div>
+);
 };
 export default UserProfile;
 
