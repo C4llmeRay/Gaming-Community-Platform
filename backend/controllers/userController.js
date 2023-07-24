@@ -45,4 +45,24 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { getUserProfile, updateUserProfile };
+// Function to get other user's profile by their ID
+const getOtherUserProfile = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find the user by their ID
+    const user = await User.findById(userId);
+
+    // If the user is found, return their profile information
+    if (user) {
+      return res.json(user);
+    } else {
+      return res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching other user profile:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+module.exports = { getUserProfile, updateUserProfile, getOtherUserProfile, };

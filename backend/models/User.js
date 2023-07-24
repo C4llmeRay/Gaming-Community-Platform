@@ -13,7 +13,20 @@ const userSchema = new mongoose.Schema(
       facebook: String,
       instagram: String,
     },
-    hasCompletedSecondPhase: { type: Boolean, default: false }, // New field to indicate completion of registration second phase
+    hasCompletedSecondPhase: { type: Boolean, default: false },
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+    friendRequests: [
+      {
+        requestId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        sender: {
+          userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          username: { type: String },
+          friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

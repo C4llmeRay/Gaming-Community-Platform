@@ -62,6 +62,15 @@ const getUserProfile = async () => {
   }
 };
 
+const getOtherUserProfile = async (userId) => {
+  try {
+    const response = await axios.get(`${baseURL}/users/${userId}/profile`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching other user profile:', error);
+  }
+};
+
 // Function to update user profile
 const updateUserProfile = async (userId, updatedProfile) => {
   try {
@@ -178,6 +187,82 @@ const deleteChatMessage = async (messageId) => {
   }
 };
 
+const sendFriendRequest = async (userId) => {
+  try {
+    const response = await axios.post(`${baseURL}/users/friend/request/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Accept a friend request from the specified user
+const acceptFriendRequest = async (requestId) => {
+  try {
+    console.log(requestId)
+    const response = await axios.post(`${baseURL}/users/friend/accept/${requestId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+
+// Function to decline a friend request
+const declineFriendRequest = async (requestId) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/users//friend/reject/${requestId}`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || 'Error declining friend request'
+    );
+  }
+};
+
+// Function to follow a user
+const followUser = async (userId) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/users/follow/${userId}`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error following user');
+  }
+};
+
+// Function to unfollow a user
+const unfollowUser = async (userId) => {
+  try {
+    const response = await axios.post(`${baseURL}/users/unfollow/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error unfollowing user');
+  }
+};
+// Function to get the user's friend requests
+const getFriendRequests = async () => {
+  try {
+    const response = await axios.get(`${baseURL}/users/friend-requests`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error fetching friend requests');
+  }
+};
+
 export {
   setAuthToken,
   registerUser,
@@ -195,4 +280,11 @@ export {
   transferOwnership,
   sendChatMessage,
   deleteChatMessage,
+  sendFriendRequest,
+  acceptFriendRequest,
+  getOtherUserProfile,
+  followUser,
+  unfollowUser,
+  getFriendRequests,
+  declineFriendRequest,
 };

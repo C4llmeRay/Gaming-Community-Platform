@@ -21,6 +21,7 @@ const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       hasCompletedSecondPhase: false, // Initialize the second phase completion status
+      following: [], 
     });
 
     await newUser.save();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams } from 'react-router-dom';
 import { getGroupDetails, getUserProfile, leaveGroup, kickMember, promoteMember, demoteMember, transferOwnership, joinGroup, sendChatMessage, deleteChatMessage } from '../api';
 import { io } from 'socket.io-client';
 
@@ -172,7 +172,7 @@ const GamingGroupDetails = () => {
 
   
   return (
-    <div>
+     <div>
       <h2>Gaming Group Details</h2>
       <p>Name: {groupDetails.name}</p>
       <p>Description: {groupDetails.description}</p>
@@ -182,13 +182,13 @@ const GamingGroupDetails = () => {
       <ul>
         {groupDetails.members.map((member) => (
           <li key={member._id}>
-            {member.username} (Member)
+            {/* Make the member's username clickable */}
+            <Link to={`/profile/${member._id}`}>{member.username}</Link> (Member)
             {groupDetails.owner === member._id && ' - Owner'}
             {member.isModerator && ' - Moderator'}
           </li>
         ))}
       </ul>
-
       <button onClick={handleJoinOrLeaveGroup}>
         {isMember ? 'Leave Group' : 'Join Group'}
       </button>
