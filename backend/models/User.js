@@ -16,14 +16,24 @@ const userSchema = new mongoose.Schema(
     hasCompletedSecondPhase: { type: Boolean, default: false },
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+    friends: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        username: { type: String },
+      },
+    ],
     friendRequests: [
       {
         requestId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         sender: {
           userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
           username: { type: String },
-          friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+          friends: [
+            {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'User',
+            },
+          ],
         },
       },
     ],

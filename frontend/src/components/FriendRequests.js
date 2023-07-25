@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getFriendRequests, declineFriendRequest, acceptFriendRequest } from '../api';
 
 const fetchFriendRequests = async () => {
@@ -47,12 +48,12 @@ const FriendRequests = () => {
   }
 
      return (
-    <div>
+     <div>
       <h2>Friend Requests</h2>
       {friendRequests.map((request) => (
         <div key={request._id}>
-          <p>Friend Request ID: {request._id}</p>
-          <p>From: {request.sender.username}</p>
+          {/* Use the Link component to create a clickable link */}
+          <p>From: <Link to={`/profile/${request.sender.userId}`}>{request.sender.username}</Link></p>
           <button onClick={() => handleAcceptRequest(request._id)}>Accept</button>
           <button onClick={() => handleDeclineRequest(request._id)}>Decline</button>
         </div>

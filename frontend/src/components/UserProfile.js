@@ -81,40 +81,43 @@ const UserProfile = () => {
 
 
 
+
   if (!userProfile) {
-    return <div>Loading...</div>;
-  }
+  return <div>Loading...</div>;
+}
 
-  console.log('Current User ID:', userProfile.currentUserId); // Log the current user ID
-  console.log('Target User Followers:', userProfile.followers); // Log the target user's followers array
+console.log('Current User ID:', userProfile.currentUserId); // Log the current user ID
+console.log('Target User Followers:', userProfile.followers); // Log the target user's followers array
 
-  return (
-    <div>
+// Check if the current user is a friend of the target user
+const isCurrentUserFriend = userProfile.friends.some(
+  (friend) => friend.userId === currentUserId
+);
+
+return (
+  <div>
     <h2>User Profile</h2>
     <p>Username: {userProfile.username}</p>
     <p>Gaming Preferences: {userProfile.gamingPreferences.join(', ')}</p>
     <p>Number of Friends: {userProfile.friends.length}</p>
     <p>Number of Followers: {userProfile.followers.length}</p>
     {isCurrentUserFollowing ? (
-          <button onClick={handleUnfollowUser}>Unfollow</button>
-        ) : (
-          <button onClick={handleFollowUser}>Follow</button>
-        )}
-    {userProfile.friends.includes(currentUserId) ? (
-        <button onClick={() => handleUnfriendUser(userId)}>Unfriend</button>
-      
+      <button onClick={handleUnfollowUser}>Unfollow</button>
+    ) : (
+      <button onClick={handleFollowUser}>Follow</button>
+    )}
+    {isCurrentUserFriend ? (
+      <button onClick={() => handleUnfriendUser(userId)}>Unfriend</button>
     ) : (
       <>
         {userProfile._id !== currentUserId && (
           // Render the "Send Friend Request" button only if the user is not viewing their own profile
           <button onClick={handleSendFriendRequest}>Send Friend Request</button>
         )}
-        
       </>
     )}
   </div>
 );
 };
+
 export default UserProfile;
-
-

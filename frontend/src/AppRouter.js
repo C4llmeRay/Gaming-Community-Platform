@@ -8,6 +8,8 @@ import CreateGamingGroup from './components/CreateGamingGroup';
 import GamingGroupDetails from './components/GamingGroupDetails';
 import UserProfile from './components/UserProfile';
 import FriendRequests from './components/FriendRequests';
+import MyFriends from './components/MyFriends';
+
 
 
 
@@ -21,7 +23,8 @@ const AppRouter = () => {
       <Route path="/create-gaming-group" element={<CreateGamingGroup />} />
       <Route path="/groups/:groupId" element={<GamingGroupDetails />} />
       <Route path="/profile/:userId" element={<UserProfile />} />
-      <Route path="/FriendRequests" element={<FriendRequests />} />
+      <Route path="/friendRequests" element={<FriendRequests />} />
+      <Route path="/myFriends" element={<MyFriends />} />
     </Routes>
   );
 };

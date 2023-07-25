@@ -207,7 +207,6 @@ const acceptFriendRequest = async (requestId) => {
   }
 };
 
-
 // Function to decline a friend request
 const declineFriendRequest = async (requestId) => {
   try {
@@ -273,6 +272,17 @@ const unfriendUser = async (userId) => {
   }
 };
 
+// Function to get the user's friends
+const getFriends = async () => {
+  try {
+    const response = await axios.get(`${baseURL}/users/friends`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error fetching friends');
+  }
+};
 
 export {
   setAuthToken,
@@ -299,4 +309,5 @@ export {
   getFriendRequests,
   declineFriendRequest,
   unfriendUser,
+  getFriends,
 };

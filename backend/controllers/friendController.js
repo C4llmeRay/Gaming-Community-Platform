@@ -13,7 +13,7 @@ const sendFriendRequest = async (req, res) => {
     }
 
     // Check if the target user is already in the current user's friends list
-    if (currentUser.friends.includes(userId)) {
+    if (currentUser.friends.some((friend) => friend.userId.equals(userId))) {
       return res.status(400).json({ message: 'You are already friends with this user' });
     }
 
@@ -46,6 +46,7 @@ const sendFriendRequest = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 
 
@@ -103,10 +104,10 @@ const acceptFriendRequest = async (req, res) => {
     );
 
     // Add the sender to the current user's friends
-    currentUser.friends.push(friendRequest.sender.userId);
+    currentUser.friends.push({userId: friendRequest.sender.userId, username: friendRequest.sender.username});
 
     // Add the current user to the sender's friends
-    sender.friends.push(currentUser._id);
+    sender.friends.push({userId: currentUser._id, username: currentUser.username });
 
     await Promise.all([currentUser.save(), sender.save()]);
 
@@ -116,6 +117,8 @@ const acceptFriendRequest = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
 
 
 // Reject a friend request
@@ -148,28 +151,33 @@ const rejectFriendRequest = async (req, res) => {
 };
 
 // Unfriend a user
-// Unfriend a user
 const unfriendUser = async (req, res) => {
   try {
     const { userId } = req.params;
     const currentUser = req.user;
 
     // Check if the target user is in the current user's friends list
-    if (!currentUser.friends.includes(userId)) {
+    const targetUserIndex = currentUser.friends.findIndex(
+      (friend) => friend.userId.toString() === userId
+    );
+    if (targetUserIndex === -1) {
       return res.status(400).json({ message: 'You are not friends with this user' });
     }
 
     // Check if the current user is in the target user's friends list
     const targetUser = await User.findById(userId);
-    if (!targetUser.friends.includes(currentUser._id)) {
+    const currentUserIndex = targetUser.friends.findIndex(
+      (friend) => friend.userId.toString() === currentUser._id.toString()
+    );
+    if (currentUserIndex === -1) {
       return res.status(400).json({ message: 'The target user is not your friend' });
     }
 
-    // Remove the target user's ID from the current user's friends array
-    currentUser.friends = currentUser.friends.filter((friendId) => friendId.toString() !== userId);
+    // Remove the target user's entry from the current user's friends array
+    currentUser.friends.splice(targetUserIndex, 1);
 
-    // Remove the current user's ID from the target user's friends array
-    targetUser.friends = targetUser.friends.filter((friendId) => friendId.toString() !== currentUser._id.toString());
+    // Remove the current user's entry from the target user's friends array
+    targetUser.friends.splice(currentUserIndex, 1);
 
     await Promise.all([currentUser.save(), targetUser.save()]);
 
@@ -181,6 +189,30 @@ const unfriendUser = async (req, res) => {
 };
 
 
+// Get user's friends
+const getUserFriends = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    const friends = await User.find({ _id: { $in: currentUser.friends } })
+      .exec();
+
+    // Map the results to include only _id and username
+    const friendData = friends.map(({ _id, username }) => ({ _id, username }));
+
+    console.log('Fetched Friends:', friendData);
+
+    res.json(friendData);
+  } catch (error) {
+    console.error("Error fetching user friends:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+
+
+
 
 module.exports = {
   sendFriendRequest,
@@ -188,4 +220,5 @@ module.exports = {
   rejectFriendRequest,
   getFriendRequests,
   unfriendUser, 
+  getUserFriends,
 };

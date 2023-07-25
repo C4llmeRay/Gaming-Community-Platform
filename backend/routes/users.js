@@ -42,6 +42,10 @@ router.get('/friend-requests', authMiddleware, friendController.getFriendRequest
 // Unfriend a user
 router.post('/unfriend/:userId', authMiddleware, friendController.unfriendUser);
 
+// Get user's friends
+router.get('/friends', authMiddleware, friendController.getUserFriends);
+
+
 
 
 
