@@ -52,7 +52,6 @@ const FriendRequests = () => {
       <h2>Friend Requests</h2>
       {friendRequests.map((request) => (
         <div key={request._id}>
-          {/* Use the Link component to create a clickable link */}
           <p>From: <Link to={`/profile/${request.sender.userId}`}>{request.sender.username}</Link></p>
           <button onClick={() => handleAcceptRequest(request._id)}>Accept</button>
           <button onClick={() => handleDeclineRequest(request._id)}>Decline</button>
