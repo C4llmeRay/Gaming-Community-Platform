@@ -36,7 +36,11 @@ router.post('/friend/accept/:requestId', authMiddleware, friendController.accept
 // Reject a friend request
 router.post('/friend/reject/:requestId', authMiddleware, friendController.rejectFriendRequest);
 
+// Get current user friend requests
 router.get('/friend-requests', authMiddleware, friendController.getFriendRequests);
+
+// Unfriend a user
+router.post('/unfriend/:userId', authMiddleware, friendController.unfriendUser);
 
 
 

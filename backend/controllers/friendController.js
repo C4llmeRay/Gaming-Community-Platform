@@ -147,9 +147,45 @@ const rejectFriendRequest = async (req, res) => {
   }
 };
 
+// Unfriend a user
+// Unfriend a user
+const unfriendUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const currentUser = req.user;
+
+    // Check if the target user is in the current user's friends list
+    if (!currentUser.friends.includes(userId)) {
+      return res.status(400).json({ message: 'You are not friends with this user' });
+    }
+
+    // Check if the current user is in the target user's friends list
+    const targetUser = await User.findById(userId);
+    if (!targetUser.friends.includes(currentUser._id)) {
+      return res.status(400).json({ message: 'The target user is not your friend' });
+    }
+
+    // Remove the target user's ID from the current user's friends array
+    currentUser.friends = currentUser.friends.filter((friendId) => friendId.toString() !== userId);
+
+    // Remove the current user's ID from the target user's friends array
+    targetUser.friends = targetUser.friends.filter((friendId) => friendId.toString() !== currentUser._id.toString());
+
+    await Promise.all([currentUser.save(), targetUser.save()]);
+
+    return res.json({ message: 'Unfriended successfully' });
+  } catch (error) {
+    console.error('Error unfriending user:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
 module.exports = {
   sendFriendRequest,
   acceptFriendRequest,
   rejectFriendRequest,
   getFriendRequests,
+  unfriendUser, 
 };

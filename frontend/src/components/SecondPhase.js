@@ -24,7 +24,7 @@ const SecondPhase = () => {
   const { userId } = location.state ?? {}; // Get the userId from the state passed through the location
 
   const [formData, setFormData] = useState({
-    gamingPreferences: '', // Set the initial state to an empty array
+    gamingPreferences: '', 
     avatar: '',
   });
 

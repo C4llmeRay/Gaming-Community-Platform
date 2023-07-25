@@ -263,6 +263,17 @@ const getFriendRequests = async () => {
   }
 };
 
+// Function to unfriend a user
+const unfriendUser = async (userId) => {
+  try {
+    const response = await axios.post(`${baseURL}/users/unfriend/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error unfriending user');
+  }
+};
+
+
 export {
   setAuthToken,
   registerUser,
@@ -287,4 +298,5 @@ export {
   unfollowUser,
   getFriendRequests,
   declineFriendRequest,
+  unfriendUser,
 };

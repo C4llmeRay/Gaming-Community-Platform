@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import { getOtherUserProfile, sendFriendRequest, followUser, unfollowUser } from '../api';
+import { getOtherUserProfile, sendFriendRequest, followUser, unfollowUser, unfriendUser  } from '../api';
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -56,13 +56,30 @@ const UserProfile = () => {
   };
 
   const handleUnfollowUser = async () => {
+    const confirmation = window.confirm('Are you sure you want to unfollow this user?');
+    if (confirmation) {
     try {
       await unfollowUser(userId);
       setIsCurrentUserFollowing(false);
     } catch (error) {
       console.error('Error unfollowing user:', error);
     }
+  }
   };
+
+    const handleUnfriendUser = async (userId) => {
+  const confirmation = window.confirm('Are you sure you want to unfriend this user?');
+  if (confirmation) {
+    try {
+      await unfriendUser(userId);
+      // Handle success or update state if needed
+    } catch (error) {
+      console.error('Error unfriending user:', error);
+    }
+  }
+};
+
+
 
   if (!userProfile) {
     return <div>Loading...</div>;
@@ -78,20 +95,21 @@ const UserProfile = () => {
     <p>Gaming Preferences: {userProfile.gamingPreferences.join(', ')}</p>
     <p>Number of Friends: {userProfile.friends.length}</p>
     <p>Number of Followers: {userProfile.followers.length}</p>
-
+    {isCurrentUserFollowing ? (
+          <button onClick={handleUnfollowUser}>Unfollow</button>
+        ) : (
+          <button onClick={handleFollowUser}>Follow</button>
+        )}
     {userProfile.friends.includes(currentUserId) ? (
-      <p>Already Friends</p>
+        <button onClick={() => handleUnfriendUser(userId)}>Unfriend</button>
+      
     ) : (
       <>
         {userProfile._id !== currentUserId && (
           // Render the "Send Friend Request" button only if the user is not viewing their own profile
           <button onClick={handleSendFriendRequest}>Send Friend Request</button>
         )}
-        {isCurrentUserFollowing ? (
-          <button onClick={handleUnfollowUser}>Unfollow</button>
-        ) : (
-          <button onClick={handleFollowUser}>Follow</button>
-        )}
+        
       </>
     )}
   </div>
