@@ -9,6 +9,8 @@ import GamingGroupDetails from './components/GamingGroupDetails';
 import UserProfile from './components/UserProfile';
 import FriendRequests from './components/FriendRequests';
 import MyFriends from './components/MyFriends';
+import GamingSession from './components/GamingSession';
+import ManageSessions from './components/ManageSessions';
 
 
 
@@ -25,6 +27,8 @@ const AppRouter = () => {
       <Route path="/profile/:userId" element={<UserProfile />} />
       <Route path="/friendRequests" element={<FriendRequests />} />
       <Route path="/myFriends" element={<MyFriends />} />
+      <Route path="/gamingSession" element={<GamingSession />} />
+      <Route path="/manageSessions" element={<ManageSessions />} />
     </Routes>
   );
 };

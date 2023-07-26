@@ -182,7 +182,6 @@ const GamingGroupDetails = () => {
       <ul>
         {groupDetails.members.map((member) => (
           <li key={member._id}>
-            {/* Make the member's username clickable */}
             <Link to={`/profile/${member._id}`}>{member.username}</Link> (Member)
             {groupDetails.owner === member._id && ' - Owner'}
             {member.isModerator && ' - Moderator'}
@@ -235,8 +234,6 @@ const GamingGroupDetails = () => {
           ))
         )}
       </div>
-
-      {/* Input field and button for sending messages */}
       <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
       <button onClick={handleSendMessage}>Send Message</button>
     </div>

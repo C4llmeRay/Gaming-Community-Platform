@@ -284,6 +284,125 @@ const getFriends = async () => {
   }
 };
 
+// Function to create a new gaming session
+const createGamingSession = async (sessionData) => {
+  try {
+    const response = await axios.post(`${baseURL}/gamingSessions/sessions`, sessionData, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to fetch all gaming sessions
+// Function to fetch all gaming sessions
+const getAllGamingSessions = async () => {
+  try {
+    const response = await axios.get(`${baseURL}/gamingSessions/sessions`);
+    const gamingSessions = response.data;
+
+    // Fetch user data and create a map of userId to username
+    const usersResponse = await axios.get(`${baseURL}/users`);
+    const users = usersResponse.data;
+    const userIdToUsernameMap = users.reduce((map, user) => {
+      map[user._id] = user.username;
+      return map;
+    }, {});
+
+    // Populate joinedPlayers field with both usernames and user IDs
+    const gamingSessionsWithUserData = gamingSessions.map((session) => ({
+      ...session,
+      joinedPlayersData: session.joinedPlayers.map((userId) => ({
+        userId,
+        username: userIdToUsernameMap[userId],
+      })),
+    }));
+
+    return gamingSessionsWithUserData;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+// Function to join a gaming session
+const joinGamingSession = async (sessionId) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions/${sessionId}/join`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to RSVP to a gaming session
+const rsvpToGamingSession = async (sessionId) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions/${sessionId}/rsvp`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Accept RSVP to a gaming session
+const acceptRSVP = async (sessionId, data) => {
+  try {
+    const response = await axios.post(`${baseURL}/gamingSessions/sessions/${sessionId}/accept`, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Decline RSVP to a gaming session
+const declineRSVP = async (sessionId, data) => {
+  try {
+    const response = await axios.post(`${baseURL}/gamingSessions/sessions/${sessionId}/decline`, data);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Edit gaming session details
+const editGamingSession = async (sessionId, editedSession) => {
+  try {
+    const response = await axios.patch(`${baseURL}/gamingSessions/${sessionId}`, editedSession);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to get hosted gaming sessions for the current user
+const getHostedGamingSessions = async (currentUserId) => {
+  try {
+    const response = await axios.get(`${baseURL}/gamingSessions/hosted-sessions`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error fetching hosted gaming sessions');
+  }
+};
+
 export {
   setAuthToken,
   registerUser,
@@ -310,4 +429,12 @@ export {
   declineFriendRequest,
   unfriendUser,
   getFriends,
+  createGamingSession,
+  getAllGamingSessions,
+  joinGamingSession,
+  rsvpToGamingSession,
+  getHostedGamingSessions,
+  acceptRSVP,
+  declineRSVP,
+  editGamingSession,
 };
