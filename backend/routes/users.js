@@ -11,6 +11,8 @@ const friendController = require('../controllers/friendController');
 const router = express.Router();
 
 
+// Get all users
+router.get('/', authMiddleware, userController.getAllUsers);
 
 // Route to get other user's profile by their ID
 router.get('/:userId/profile', userController.getOtherUserProfile);

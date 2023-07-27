@@ -11,7 +11,15 @@ const setAuthToken = (token) => {
     delete axios.defaults.headers.common['Authorization'];
   }
 };
-
+// Function to get all users
+const getAllUsers = async () => {
+  try {
+    const response = await axios.get(`${baseURL}/users`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching users:', error);
+  }
+};
 // Function to register a new user
 const registerUser = async (userData) => {
   try {
@@ -21,7 +29,6 @@ const registerUser = async (userData) => {
     throw error.response.data;
   }
 };
-
 // Function to complete the second phase of the registration 
 export const completeSecondPhase = async (userId, gamingPreferences, avatar) => {
   try {
@@ -36,7 +43,6 @@ export const completeSecondPhase = async (userId, gamingPreferences, avatar) => 
     throw error.response.data;
   }
 };
-
 // Function to login a user
 const loginUser = async (userData) => {
   try {
@@ -47,7 +53,6 @@ const loginUser = async (userData) => {
     throw error.response.data;
   }
 };
-
 // Function to get user profile
 const getUserProfile = async () => {
   try {
@@ -61,7 +66,6 @@ const getUserProfile = async () => {
     throw error.response.data;
   }
 };
-
 const getOtherUserProfile = async (userId) => {
   try {
     const response = await axios.get(`${baseURL}/users/${userId}/profile`);
@@ -70,7 +74,6 @@ const getOtherUserProfile = async (userId) => {
     throw new Error('Error fetching other user profile:', error);
   }
 };
-
 // Function to update user profile
 const updateUserProfile = async (userId, updatedProfile) => {
   try {
@@ -80,11 +83,9 @@ const updateUserProfile = async (userId, updatedProfile) => {
     throw error.response.data;
   }
 };
-
 const setLoggedInUser = (token) => {
   setAuthToken(token);
 };
-
 // Function to create a gaming group
 const createGamingGroup = async (groupData) => {
   try {
@@ -94,7 +95,6 @@ const createGamingGroup = async (groupData) => {
     throw error.response.data;
   }
 };
-
 // Function to get group details by ID
 const getGroupDetails = async (groupId) => {
   try {
@@ -104,7 +104,6 @@ const getGroupDetails = async (groupId) => {
     throw error.response.data;
   }
 };
-
 // Function to join a gaming group
 const joinGroup = async (groupId) => {
   try {
@@ -114,7 +113,6 @@ const joinGroup = async (groupId) => {
     throw error.response.data;
   }
 };
-
 // Function to leave a gaming group
 const leaveGroup = async (groupId) => {
   try {
@@ -124,7 +122,6 @@ const leaveGroup = async (groupId) => {
     throw error.response.data;
   }
 };
-
 // Function to kick a member from a gaming group
 const kickMember = async (groupId, memberId) => {
   
@@ -137,7 +134,6 @@ const kickMember = async (groupId, memberId) => {
     throw error.response.data;
   }
 };
-
 // Function to promote a member to moderator in a gaming group
 const promoteMember = async (groupId, memberId) => {
   try {
@@ -147,7 +143,6 @@ const promoteMember = async (groupId, memberId) => {
     throw error.response.data;
   }
 };
-
 // Function to demote a moderator back to a regular member in a gaming group
 const demoteMember = async (groupId, memberId) => {
   try {
@@ -157,7 +152,6 @@ const demoteMember = async (groupId, memberId) => {
     throw error.response.data;
   }
 };
-
 // Function to transfer ownership of a gaming group
 const transferOwnership = async (groupId, newOwnerId) => {
   try {
@@ -167,7 +161,6 @@ const transferOwnership = async (groupId, newOwnerId) => {
     throw error.response.data;
   }
 };
-
 // Function to send a chat message
 const sendChatMessage = async (message) => {
   try {
@@ -177,7 +170,6 @@ const sendChatMessage = async (message) => {
     throw new Error('Failed to send chat message');
   }
 };
-
 const deleteChatMessage = async (messageId) => {
   try {
     const response = await axios.delete(`${baseURL}/chatMessages/${messageId}`);
@@ -186,7 +178,6 @@ const deleteChatMessage = async (messageId) => {
     throw error.response.data;
   }
 };
-
 const sendFriendRequest = async (userId) => {
   try {
     const response = await axios.post(`${baseURL}/users/friend/request/${userId}`);
@@ -195,7 +186,6 @@ const sendFriendRequest = async (userId) => {
     throw error.response.data;
   }
 };
-
 // Accept a friend request from the specified user
 const acceptFriendRequest = async (requestId) => {
   try {
@@ -206,7 +196,6 @@ const acceptFriendRequest = async (requestId) => {
     throw error.response.data;
   }
 };
-
 // Function to decline a friend request
 const declineFriendRequest = async (requestId) => {
   try {
@@ -224,7 +213,6 @@ const declineFriendRequest = async (requestId) => {
     );
   }
 };
-
 // Function to follow a user
 const followUser = async (userId) => {
   try {
@@ -240,7 +228,6 @@ const followUser = async (userId) => {
     throw new Error(error.response?.data?.message || 'Error following user');
   }
 };
-
 // Function to unfollow a user
 const unfollowUser = async (userId) => {
   try {
@@ -261,7 +248,6 @@ const getFriendRequests = async () => {
     throw new Error(error.response?.data?.message || 'Error fetching friend requests');
   }
 };
-
 // Function to unfriend a user
 const unfriendUser = async (userId) => {
   try {
@@ -271,7 +257,6 @@ const unfriendUser = async (userId) => {
     throw new Error(error.response?.data?.message || 'Error unfriending user');
   }
 };
-
 // Function to get the user's friends
 const getFriends = async () => {
   try {
@@ -283,7 +268,6 @@ const getFriends = async () => {
     throw new Error(error.response?.data?.message || 'Error fetching friends');
   }
 };
-
 // Function to create a new gaming session
 const createGamingSession = async (sessionData) => {
   try {
@@ -295,8 +279,6 @@ const createGamingSession = async (sessionData) => {
     throw error.response.data;
   }
 };
-
-// Function to fetch all gaming sessions
 // Function to fetch all gaming sessions
 const getAllGamingSessions = async () => {
   try {
@@ -325,8 +307,6 @@ const getAllGamingSessions = async () => {
     throw error;
   }
 };
-
-
 // Function to join a gaming session
 const joinGamingSession = async (sessionId) => {
   try {
@@ -342,23 +322,6 @@ const joinGamingSession = async (sessionId) => {
     throw error.response.data;
   }
 };
-
-// Function to RSVP to a gaming session
-const rsvpToGamingSession = async (sessionId) => {
-  try {
-    const response = await axios.post(
-      `${baseURL}/gamingSessions/sessions/${sessionId}/rsvp`,
-      null,
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
 // Accept RSVP to a gaming session
 const acceptRSVP = async (sessionId, data) => {
   try {
@@ -368,7 +331,6 @@ const acceptRSVP = async (sessionId, data) => {
     throw error.response.data;
   }
 };
-
 // Decline RSVP to a gaming session
 const declineRSVP = async (sessionId, data) => {
   try {
@@ -378,17 +340,15 @@ const declineRSVP = async (sessionId, data) => {
     throw error.response.data;
   }
 };
-
 // Edit gaming session details
 const editGamingSession = async (sessionId, editedSession) => {
   try {
-    const response = await axios.patch(`${baseURL}/gamingSessions/${sessionId}`, editedSession);
+    const response = await axios.patch(`${baseURL}/gamingSessions/sessions/${sessionId}`, editedSession);
     return response.data;
   } catch (error) {
     throw error.response.data;
   }
 };
-
 // Function to get hosted gaming sessions for the current user
 const getHostedGamingSessions = async (currentUserId) => {
   try {
@@ -402,9 +362,51 @@ const getHostedGamingSessions = async (currentUserId) => {
     throw new Error(error.response?.data?.message || 'Error fetching hosted gaming sessions');
   }
 };
+// Function to delete a gaming session
+const deleteGamingSession = async (sessionId) => {
+  try {
+    const response = await axios.delete(`${baseURL}/gamingSessions/sessions/${sessionId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+// Function to send an invitation to a user for a gaming session
+const sendInvitation = async (sessionId, userId) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions/${sessionId}/invite`,
+      { userId },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+// Function to fetch invitations for the current user
+const getInvitations = async () => {
+  try {
+    const response = await axios.get(`${baseURL}/gamingSessions/invitations`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
 export {
   setAuthToken,
+  getAllUsers,
   registerUser,
   loginUser,
   getUserProfile,
@@ -432,9 +434,11 @@ export {
   createGamingSession,
   getAllGamingSessions,
   joinGamingSession,
-  rsvpToGamingSession,
   getHostedGamingSessions,
   acceptRSVP,
   declineRSVP,
   editGamingSession,
+  deleteGamingSession,
+  sendInvitation,
+  getInvitations,
 };
