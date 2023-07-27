@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
 // The base URL for the backend API
-const baseURL = 'http://localhost:5000';
+const baseURL = "http://localhost:5000";
 
 // Function to set the Authorization header with the JWT token
 const setAuthToken = (token) => {
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete axios.defaults.headers.common['Authorization'];
+    delete axios.defaults.headers.common["Authorization"];
   }
 };
 // Function to get all users
@@ -17,7 +17,7 @@ const getAllUsers = async () => {
     const response = await axios.get(`${baseURL}/users`);
     return response.data;
   } catch (error) {
-    throw new Error('Error fetching users:', error);
+    throw new Error("Error fetching users:", error);
   }
 };
 // Function to register a new user
@@ -29,14 +29,21 @@ const registerUser = async (userData) => {
     throw error.response.data;
   }
 };
-// Function to complete the second phase of the registration 
-export const completeSecondPhase = async (userId, gamingPreferences, avatar) => {
+// Function to complete the second phase of the registration
+export const completeSecondPhase = async (
+  userId,
+  gamingPreferences,
+  avatar
+) => {
   try {
-    const response = await axios.patch(`${baseURL}/auth/complete-second-phase`, {
-      userId,
-      gamingPreferences,
-      avatar,
-    });
+    const response = await axios.patch(
+      `${baseURL}/auth/complete-second-phase`,
+      {
+        userId,
+        gamingPreferences,
+        avatar,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -47,7 +54,7 @@ export const completeSecondPhase = async (userId, gamingPreferences, avatar) => 
 const loginUser = async (userData) => {
   try {
     const response = await axios.post(`${baseURL}/auth/login`, userData);
-    localStorage.setItem('token', response.data.token); // Save the JWT token in local storage
+    localStorage.setItem("token", response.data.token); // Save the JWT token in local storage
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -58,7 +65,7 @@ const getUserProfile = async () => {
   try {
     const response = await axios.get(`${baseURL}/users/profile`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -71,13 +78,16 @@ const getOtherUserProfile = async (userId) => {
     const response = await axios.get(`${baseURL}/users/${userId}/profile`);
     return response.data;
   } catch (error) {
-    throw new Error('Error fetching other user profile:', error);
+    throw new Error("Error fetching other user profile:", error);
   }
 };
 // Function to update user profile
 const updateUserProfile = async (userId, updatedProfile) => {
   try {
-    const response = await axios.patch(`${baseURL}/users/${userId}`, updatedProfile);
+    const response = await axios.patch(
+      `${baseURL}/users/${userId}`,
+      updatedProfile
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -124,10 +134,10 @@ const leaveGroup = async (groupId) => {
 };
 // Function to kick a member from a gaming group
 const kickMember = async (groupId, memberId) => {
-  
   try {
-    const response = await axios.post(`${baseURL}/groups/${groupId}/kick`, { memberId });
-    
+    const response = await axios.post(`${baseURL}/groups/${groupId}/kick`, {
+      memberId,
+    });
 
     return response.data;
   } catch (error) {
@@ -137,7 +147,9 @@ const kickMember = async (groupId, memberId) => {
 // Function to promote a member to moderator in a gaming group
 const promoteMember = async (groupId, memberId) => {
   try {
-    const response = await axios.post(`${baseURL}/groups/${groupId}/promote`, { memberId });
+    const response = await axios.post(`${baseURL}/groups/${groupId}/promote`, {
+      memberId,
+    });
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -146,7 +158,9 @@ const promoteMember = async (groupId, memberId) => {
 // Function to demote a moderator back to a regular member in a gaming group
 const demoteMember = async (groupId, memberId) => {
   try {
-    const response = await axios.post(`${baseURL}/groups/${groupId}/demote`, { memberId });
+    const response = await axios.post(`${baseURL}/groups/${groupId}/demote`, {
+      memberId,
+    });
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -155,7 +169,10 @@ const demoteMember = async (groupId, memberId) => {
 // Function to transfer ownership of a gaming group
 const transferOwnership = async (groupId, newOwnerId) => {
   try {
-    const response = await axios.post(`${baseURL}/groups/${groupId}/transfer-ownership`, { newOwnerId });
+    const response = await axios.post(
+      `${baseURL}/groups/${groupId}/transfer-ownership`,
+      { newOwnerId }
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -167,7 +184,7 @@ const sendChatMessage = async (message) => {
     const response = await axios.post(`${baseURL}/chatMessages`, message);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to send chat message');
+    throw new Error("Failed to send chat message");
   }
 };
 const deleteChatMessage = async (messageId) => {
@@ -180,7 +197,9 @@ const deleteChatMessage = async (messageId) => {
 };
 const sendFriendRequest = async (userId) => {
   try {
-    const response = await axios.post(`${baseURL}/users/friend/request/${userId}`);
+    const response = await axios.post(
+      `${baseURL}/users/friend/request/${userId}`
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -189,8 +208,10 @@ const sendFriendRequest = async (userId) => {
 // Accept a friend request from the specified user
 const acceptFriendRequest = async (requestId) => {
   try {
-    console.log(requestId)
-    const response = await axios.post(`${baseURL}/users/friend/accept/${requestId}`);
+    console.log(requestId);
+    const response = await axios.post(
+      `${baseURL}/users/friend/accept/${requestId}`
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -203,13 +224,13 @@ const declineFriendRequest = async (requestId) => {
       `${baseURL}/users//friend/reject/${requestId}`,
       null,
       {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       }
     );
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.message || 'Error declining friend request'
+      error.response?.data?.message || "Error declining friend request"
     );
   }
 };
@@ -220,12 +241,12 @@ const followUser = async (userId) => {
       `${baseURL}/users/follow/${userId}`,
       null,
       {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       }
     );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error following user');
+    throw new Error(error.response?.data?.message || "Error following user");
   }
 };
 // Function to unfollow a user
@@ -234,18 +255,20 @@ const unfollowUser = async (userId) => {
     const response = await axios.post(`${baseURL}/users/unfollow/${userId}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error unfollowing user');
+    throw new Error(error.response?.data?.message || "Error unfollowing user");
   }
 };
 // Function to get the user's friend requests
 const getFriendRequests = async () => {
   try {
     const response = await axios.get(`${baseURL}/users/friend-requests`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching friend requests');
+    throw new Error(
+      error.response?.data?.message || "Error fetching friend requests"
+    );
   }
 };
 // Function to unfriend a user
@@ -254,26 +277,30 @@ const unfriendUser = async (userId) => {
     const response = await axios.post(`${baseURL}/users/unfriend/${userId}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error unfriending user');
+    throw new Error(error.response?.data?.message || "Error unfriending user");
   }
 };
 // Function to get the user's friends
 const getFriends = async () => {
   try {
     const response = await axios.get(`${baseURL}/users/friends`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching friends');
+    throw new Error(error.response?.data?.message || "Error fetching friends");
   }
 };
 // Function to create a new gaming session
 const createGamingSession = async (sessionData) => {
   try {
-    const response = await axios.post(`${baseURL}/gamingSessions/sessions`, sessionData, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    });
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions`,
+      sessionData,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -314,7 +341,7 @@ const joinGamingSession = async (sessionId) => {
       `${baseURL}/gamingSessions/sessions/${sessionId}/join`,
       null,
       {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       }
     );
     return response.data;
@@ -325,7 +352,10 @@ const joinGamingSession = async (sessionId) => {
 // Accept RSVP to a gaming session
 const acceptRSVP = async (sessionId, data) => {
   try {
-    const response = await axios.post(`${baseURL}/gamingSessions/sessions/${sessionId}/accept`, data);
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions/${sessionId}/accept`,
+      data
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -334,7 +364,10 @@ const acceptRSVP = async (sessionId, data) => {
 // Decline RSVP to a gaming session
 const declineRSVP = async (sessionId, data) => {
   try {
-    const response = await axios.post(`${baseURL}/gamingSessions/sessions/${sessionId}/decline`, data);
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions/${sessionId}/decline`,
+      data
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -343,7 +376,10 @@ const declineRSVP = async (sessionId, data) => {
 // Edit gaming session details
 const editGamingSession = async (sessionId, editedSession) => {
   try {
-    const response = await axios.patch(`${baseURL}/gamingSessions/sessions/${sessionId}`, editedSession);
+    const response = await axios.patch(
+      `${baseURL}/gamingSessions/sessions/${sessionId}`,
+      editedSession
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -352,24 +388,32 @@ const editGamingSession = async (sessionId, editedSession) => {
 // Function to get hosted gaming sessions for the current user
 const getHostedGamingSessions = async (currentUserId) => {
   try {
-    const response = await axios.get(`${baseURL}/gamingSessions/hosted-sessions`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+    const response = await axios.get(
+      `${baseURL}/gamingSessions/hosted-sessions`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching hosted gaming sessions');
+    throw new Error(
+      error.response?.data?.message || "Error fetching hosted gaming sessions"
+    );
   }
 };
 // Function to delete a gaming session
 const deleteGamingSession = async (sessionId) => {
   try {
-    const response = await axios.delete(`${baseURL}/gamingSessions/sessions/${sessionId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+    const response = await axios.delete(
+      `${baseURL}/gamingSessions/sessions/${sessionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -383,7 +427,7 @@ const sendInvitation = async (sessionId, userId) => {
       { userId },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -401,6 +445,28 @@ const getInvitations = async () => {
     return response.data;
   } catch (error) {
     throw error.response.data;
+  }
+};
+// Function to upload avatar
+const uploadAvatar = async (avatarFile) => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", avatarFile);
+
+    const response = await axios.post(
+      `${baseURL}/auth/upload-avatar`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    throw error;
   }
 };
 
@@ -441,4 +507,5 @@ export {
   deleteGamingSession,
   sendInvitation,
   getInvitations,
+  uploadAvatar,
 };

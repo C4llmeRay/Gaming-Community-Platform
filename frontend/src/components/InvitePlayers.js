@@ -20,12 +20,9 @@ const InvitePlayers = ({ sessionId }) => {
 
   const handleInvite = async () => {
     try {
-      // Send the invitation to the selected user
-      await sendInvitation(sessionId, selectedUser); // Implement the sendInvitation API function
+
+      await sendInvitation(sessionId, selectedUser); 
       alert(`Invitation sent to user with ID ${selectedUser}`);
-      // Optionally, can update the list of invited users on the UI
-      // by filtering the users array to remove the selected user
-      // setUsers(users.filter((user) => user._id !== selectedUser));
     } catch (error) {
       console.error("Error sending invitation:", error);
     }

@@ -51,4 +51,6 @@ router.get('/friends', authMiddleware, friendController.getUserFriends);
 
 
 
+
+
 module.exports = router;

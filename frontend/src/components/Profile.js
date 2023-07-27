@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { getUserProfile, updateUserProfile } from '../api';
-import { getUserIdFromToken } from '../helpers';
+import React, { useEffect, useState } from "react";
+import { getUserProfile, updateUserProfile, uploadAvatar } from "../api";
+import { getUserIdFromToken } from "../helpers";
 
 const predefinedGames = [
-  'Fortnite',
-  'Minecraft',
-  'Apex Legends',
-  'League of Legends',
-  'Counter-Strike: Global Offensive',
+  "Fortnite",
+  "Minecraft",
+  "Apex Legends",
+  "League of Legends",
+  "Counter-Strike: Global Offensive",
   // Add more games here
 ];
 
@@ -15,15 +15,18 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    bio: '',
+    username: "",
+    email: "",
+    bio: "",
     gamingPreferences: [],
-    avatar: '',
-    twitter: '',
-    facebook: '',
-    instagram: '',
+    avatar: "",
+    twitter: "",
+    facebook: "",
+    instagram: "",
   });
+
+  // New state variable for avatar file
+  const [avatarFile, setAvatarFile] = useState(null);
 
   useEffect(() => {
     // Get the userId from the token
@@ -43,16 +46,16 @@ const Profile = () => {
       setFormData({
         username: userProfile.username,
         email: userProfile.email,
-        bio: userProfile.bio || '',
+        bio: userProfile.bio || "",
         gamingPreferences: userProfile.gamingPreferences || [],
-        avatar: userProfile.avatar || '',
-        twitter: userProfile.socialLinks?.twitter || '',
-        facebook: userProfile.socialLinks?.facebook || '',
-        instagram: userProfile.socialLinks?.instagram || '',
+        avatar: userProfile.avatar || "",
+        twitter: userProfile.socialLinks?.twitter || "",
+        facebook: userProfile.socialLinks?.facebook || "",
+        instagram: userProfile.socialLinks?.instagram || "",
       });
     } catch (error) {
       // Handle any errors, such as unauthorized access or server issues
-      console.error('Error fetching user profile:', error);
+      console.error("Error fetching user profile:", error);
     }
   };
 
@@ -77,7 +80,7 @@ const Profile = () => {
       }
     } catch (error) {
       // Handle any errors, such as unauthorized access or server issues
-      console.error('Error updating user profile:', error);
+      console.error("Error updating user profile:", error);
     }
   };
 
@@ -96,10 +99,45 @@ const Profile = () => {
       } else {
         return {
           ...prevFormData,
-          gamingPreferences: prevFormData.gamingPreferences.filter((pref) => pref !== value),
+          gamingPreferences: prevFormData.gamingPreferences.filter(
+            (pref) => pref !== value
+          ),
         };
       }
     });
+  };
+
+  // New function to handle avatar file selection
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    console.log("Selected Avatar File:", file);
+    setAvatarFile(file);
+  };
+
+  const handleUploadAvatar = async () => {
+    try {
+      if (!avatarFile) {
+        alert("Please select an avatar image");
+        return;
+      }
+
+      // Call the API function to upload the avatar
+      console.log("Uploading Avatar...");
+      const response = await uploadAvatar(avatarFile);
+
+      // If the avatar is uploaded successfully, update the avatar URL in the form data
+      if (response && response.avatarPath) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          avatar: response.avatarPath,
+        }));
+        // Optionally, you can show a success message here
+        alert("Avatar uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      alert("There was an error uploading the avatar. Please try again.");
+    }
   };
 
   return (
@@ -109,24 +147,34 @@ const Profile = () => {
         <div>
           <p>Username: {userProfile.username}</p>
           <p>Email: {userProfile.email}</p>
-          <p>Bio: {userProfile.bio || 'No bio provided'}</p>
+          <p>Bio: {userProfile.bio || "No bio provided"}</p>
           <p>Gaming Preferences:</p>
           <ul>
             {userProfile.gamingPreferences.length === 0 ? (
               <li>No preferences provided</li>
             ) : (
-              userProfile.gamingPreferences.map((pref) => <li key={pref}>{pref}</li>)
+              userProfile.gamingPreferences.map((pref) => (
+                <li key={pref}>{pref}</li>
+              ))
             )}
           </ul>
-          {userProfile.avatar && <img src={userProfile.avatar} alt="User Avatar" />}
-          {userProfile.socialLinks?.twitter && <p>Twitter: {userProfile.socialLinks.twitter}</p>}
-          {userProfile.socialLinks?.facebook && <p>Facebook: {userProfile.socialLinks.facebook}</p>}
-          {userProfile.socialLinks?.instagram && <p>Instagram: {userProfile.socialLinks.instagram}</p>}
+          {userProfile.avatar && (
+            <img src={userProfile.avatar} alt="User Avatar" />
+          )}
+          {userProfile.socialLinks?.twitter && (
+            <p>Twitter: {userProfile.socialLinks.twitter}</p>
+          )}
+          {userProfile.socialLinks?.facebook && (
+            <p>Facebook: {userProfile.socialLinks.facebook}</p>
+          )}
+          {userProfile.socialLinks?.instagram && (
+            <p>Instagram: {userProfile.socialLinks.instagram}</p>
+          )}
           <button onClick={handleEditButtonClick}>Edit Profile</button>
         </div>
       ) : (
         <div>
-          <form>
+          <form encType="multipart/form-data">
             <label htmlFor="username">Username:</label>
             <input
               type="text"
@@ -168,14 +216,33 @@ const Profile = () => {
               </div>
             ))}
             <br />
-            <label htmlFor="avatar">Avatar URL:</label>
-            <input
-              type="text"
-              id="avatar"
-              name="avatar"
-              value={formData.avatar}
-              onChange={handleInputChange}
-            />
+            {editMode ? (
+              <>
+                {/* Add an input field to allow the user to select a new avatar */}
+                <label htmlFor="avatar">Select Avatar:</label>
+                <input
+                  type="file"
+                  id="avatar"
+                  name="avatar"
+                  onChange={handleAvatarChange}
+                />
+                {/* Add a button to upload the selected avatar */}
+                <button type="button" onClick={handleUploadAvatar}>
+                  Upload Avatar
+                </button>
+              </>
+            ) : (
+              <>
+                <label htmlFor="avatar">Avatar URL:</label>
+                <input
+                  type="text"
+                  id="avatar"
+                  name="avatar"
+                  value={formData.avatar}
+                  onChange={handleInputChange}
+                />
+              </>
+            )}
             <br />
             <label htmlFor="twitter">Twitter:</label>
             <input
@@ -205,8 +272,14 @@ const Profile = () => {
             />
             <br />
           </form>
-          <button onClick={handleSaveButtonClick}>Save Profile</button>
-          <button onClick={handleCancelButtonClick}>Cancel</button>
+          {editMode ? (
+            <>
+              <button onClick={handleSaveButtonClick}>Save Profile</button>
+              <button onClick={handleCancelButtonClick}>Cancel</button>
+            </>
+          ) : (
+            <button onClick={handleEditButtonClick}>Edit Profile</button>
+          )}
         </div>
       )}
     </div>

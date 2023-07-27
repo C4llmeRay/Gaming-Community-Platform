@@ -6,6 +6,7 @@ const userRoutes = require('./routes/users');
 const gamingGroupsRoutes = require('./routes/gamingGroups');
 const chatMessagesRoutes = require('./routes/chatMessages'); 
 const gamingSessionRoutes = require('./routes/gamingSession')
+const uploadAvatar = require("./middleware/uploadAvatar");
 const dotenv = require('dotenv');
 const http = require('http');
 const { chatSocket } = require('./sockets/chatSocket'); 
@@ -23,11 +24,11 @@ app.use(express.json());
 connectDB();
 
 // Routes
-app.use('/auth', authRoutes); 
+app.use('/auth', uploadAvatar.single('avatar'), authRoutes);
 app.use('/users', userRoutes); 
 app.use('/groups', gamingGroupsRoutes); 
 app.use('/chatMessages', chatMessagesRoutes); 
-app.use('/gamingSessions', gamingSessionRoutes)
+app.use('/gamingSessions', gamingSessionRoutes);
 
 // Create an HTTP server using the Express app
 const server = http.createServer(app);

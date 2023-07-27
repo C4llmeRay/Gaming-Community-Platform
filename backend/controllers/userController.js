@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const multer = require("multer");
 
 const getUserProfile = async (req, res) => {
   try {
