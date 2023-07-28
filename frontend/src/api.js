@@ -453,12 +453,57 @@ const uploadAvatar = async (avatarFile) => {
     const formData = new FormData();
     formData.append("avatar", avatarFile);
 
-    const response = await axios.post(`${baseURL}/avatars/uploadAvatar`,formData, {
-        headers: { "Content-Type": "multipart/form-data",},
-    });
+    const response = await axios.post(
+      `${baseURL}/avatars/uploadAvatar`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error uploading avatar:", error);
+    throw error;
+  }
+};
+// Function to search gaming groups
+const searchGroups = async (searchCriteria) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/search/groups`,
+      searchCriteria
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error searching gaming groups:", error);
+    throw error;
+  }
+};
+
+// Function to search friends
+const searchFriends = async (searchCriteria) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/search/friends`,
+      searchCriteria
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error searching friends:", error);
+    throw error;
+  }
+};
+
+// Function to search gaming sessions
+const searchGamingSessions = async (searchCriteria) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/search/sessions`,
+      searchCriteria
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error searching gaming sessions:", error);
     throw error;
   }
 };
@@ -501,4 +546,7 @@ export {
   sendInvitation,
   getInvitations,
   uploadAvatar,
+  searchGroups,
+  searchFriends,
+  searchGamingSessions,
 };

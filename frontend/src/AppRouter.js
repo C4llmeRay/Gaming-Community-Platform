@@ -12,8 +12,7 @@ import MyFriends from './components/MyFriends';
 import GamingSession from './components/GamingSession';
 import ManageSessions from './components/ManageSessions';
 import Invitations from './components/Invitations';
-import AvatarUpload from './components/AvatarUpload';
-
+import Search from './components/Search';
 
 
 
@@ -32,7 +31,7 @@ const AppRouter = () => {
       <Route path="/gamingSession" element={<GamingSession />} />
       <Route path="/manageSessions" element={<ManageSessions />} />
       <Route path="/invitations" element={<Invitations />} />
-      <Route path="/avatar" element={<AvatarUpload />} />
+      <Route path="/search" element={<Search />} />
     </Routes>
   );
 };
