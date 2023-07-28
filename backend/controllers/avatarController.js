@@ -8,8 +8,6 @@ const uploadAvatar = async (req, res, next) => {
       return res.status(400).json({ message: "No avatar file received" });
     }
 
-    console.log("Received Avatar File:", req.file);
-
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
@@ -32,30 +30,10 @@ const uploadAvatar = async (req, res, next) => {
       readableStream.pipe(stream);
     });
 
-    console.log("Cloudinary Upload Result:", result);
-
     const { secure_url: imageUrl, public_id: cloudinaryPublicId } = result;
 
-    const newImage = new Image({
-      fileName: req.file.originalname,
-      cloudinaryPublicId,
-      imageUrl,
-    });
-
-    await newImage.save();
-
-    console.log("Image Information Saved to Database:", newImage);
-
-    // Pass the image information to the next middleware or send it in the response
-    req.image = {
-      fileName: req.file.originalname,
-      cloudinaryPublicId,
-      imageUrl,
-    };
-
-    console.log("Image Information in Request:", req.image);
-
-    next();
+    // Return the image URL in the response
+    res.json({ imageUrl });
   } catch (error) {
     console.error("Error uploading avatar:", error);
     return res.status(500).json({ message: "Error uploading avatar" });

@@ -126,10 +126,10 @@ const Profile = () => {
       const response = await uploadAvatar(avatarFile);
 
       // If the avatar is uploaded successfully, update the avatar URL in the form data
-      if (response && response.avatarPath) {
+      if (response && response.imageUrl) {
         setFormData((prevFormData) => ({
           ...prevFormData,
-          avatar: response.avatarPath,
+          avatar: response.imageUrl,
         }));
         // Optionally, you can show a success message here
         alert("Avatar uploaded successfully!");
