@@ -230,6 +230,21 @@ const getUserInvitations = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+// Get gaming sessions where the current user has joined as a participant
+const getJoinedGamingSessions = async (req, res) => {
+  try {
+    // Assuming the user's ID is stored in req.user.id after authentication
+    const userId = req.user.id;
+
+    // Perform the query to fetch the gaming sessions where the user has joined
+    const gamingSessions = await GamingSession.find({ joinedPlayers: userId });
+
+    res.json(gamingSessions);
+  } catch (error) {
+    console.error("Error fetching user's joined gaming sessions:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 
 module.exports = {
@@ -243,4 +258,5 @@ module.exports = {
   deleteGamingSession,
   sendInvitation,
   getUserInvitations,
+  getJoinedGamingSessions,
 };

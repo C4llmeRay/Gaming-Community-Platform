@@ -469,12 +469,9 @@ const uploadAvatar = async (avatarFile) => {
 // Function to search gaming groups
 const searchGroups = async (searchCriteria) => {
   try {
-    const response = await axios.get(
-      `${baseURL}/search/groups`,
-      {
-        params: searchCriteria,
-      }
-    );
+    const response = await axios.get(`${baseURL}/search/groups`, {
+      params: searchCriteria,
+    });
     return response.data;
   } catch (error) {
     console.error("Error searching gaming groups:", error);
@@ -485,12 +482,9 @@ const searchGroups = async (searchCriteria) => {
 // Function to search friends
 const searchFriends = async (searchCriteria) => {
   try {
-    const response = await axios.get(
-      `${baseURL}/search/friends`,
-      {
-        params: searchCriteria,
-      }
-    );
+    const response = await axios.get(`${baseURL}/search/friends`, {
+      params: searchCriteria,
+    });
     return response.data;
   } catch (error) {
     console.error("Error searching friends:", error);
@@ -501,19 +495,32 @@ const searchFriends = async (searchCriteria) => {
 // Function to search gaming sessions
 const searchGamingSessions = async (searchCriteria) => {
   try {
-    const response = await axios.get(
-      `${baseURL}/search/sessions`,
-      {
-        params: searchCriteria,
-      }
-    );
+    const response = await axios.get(`${baseURL}/search/sessions`, {
+      params: searchCriteria,
+    });
     return response.data;
   } catch (error) {
     console.error("Error searching gaming sessions:", error);
     throw error;
   }
 };
-
+// Function to get the current user's joined gaming sessions
+const getJoinedGamingSessions = async () => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/gamingSessions/joined-sessions`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user's joined gaming sessions:", error);
+    throw error;
+  }
+};
 
 export {
   setAuthToken,
@@ -556,4 +563,5 @@ export {
   searchGroups,
   searchFriends,
   searchGamingSessions,
+  getJoinedGamingSessions,
 };
