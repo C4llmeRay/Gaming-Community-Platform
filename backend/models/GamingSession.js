@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const gamingSessionSchema = new mongoose.Schema({
   host: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   game: {
@@ -22,16 +22,20 @@ const gamingSessionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  joinedPlayers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
-  rsvpedPlayers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
+  joinedPlayers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  rsvpedPlayers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
-const GamingSession = mongoose.model('GamingSession', gamingSessionSchema);
+const GamingSession = mongoose.model("GamingSession", gamingSessionSchema);
 
 module.exports = GamingSession;

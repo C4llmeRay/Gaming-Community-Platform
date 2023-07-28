@@ -12,7 +12,8 @@ import MyFriends from './components/MyFriends';
 import GamingSession from './components/GamingSession';
 import ManageSessions from './components/ManageSessions';
 import Invitations from './components/Invitations';
-import Search from './components/Search';
+import SearchUser from './components/SearchUser';
+import SearchGroups from './components/SearchGroups';
 
 
 
@@ -31,7 +32,8 @@ const AppRouter = () => {
       <Route path="/gamingSession" element={<GamingSession />} />
       <Route path="/manageSessions" element={<ManageSessions />} />
       <Route path="/invitations" element={<Invitations />} />
-      <Route path="/search" element={<Search />} />
+      <Route path="/searchUsers" element={<SearchUser />} />
+      <Route path="/searchGroups" element={<SearchGroups />} />
     </Routes>
   );
 };

@@ -469,9 +469,11 @@ const uploadAvatar = async (avatarFile) => {
 // Function to search gaming groups
 const searchGroups = async (searchCriteria) => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       `${baseURL}/search/groups`,
-      searchCriteria
+      {
+        params: searchCriteria,
+      }
     );
     return response.data;
   } catch (error) {
@@ -483,9 +485,11 @@ const searchGroups = async (searchCriteria) => {
 // Function to search friends
 const searchFriends = async (searchCriteria) => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       `${baseURL}/search/friends`,
-      searchCriteria
+      {
+        params: searchCriteria,
+      }
     );
     return response.data;
   } catch (error) {
@@ -497,9 +501,11 @@ const searchFriends = async (searchCriteria) => {
 // Function to search gaming sessions
 const searchGamingSessions = async (searchCriteria) => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       `${baseURL}/search/sessions`,
-      searchCriteria
+      {
+        params: searchCriteria,
+      }
     );
     return response.data;
   } catch (error) {
@@ -507,6 +513,7 @@ const searchGamingSessions = async (searchCriteria) => {
     throw error;
   }
 };
+
 
 export {
   setAuthToken,
