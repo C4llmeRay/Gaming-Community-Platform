@@ -1,22 +1,18 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2; 
 
-// Define storage for the uploaded avatars
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // Ensure that the destination directory exists
-    const targetDirectory = path.join(__dirname, "../uploads/avatars");
-    fs.mkdirSync(targetDirectory, { recursive: true });
-    cb(null, targetDirectory);
-  },
-  filename: function (req, file, cb) {
-    console.log(file)
-    // Generate a unique filename using a timestamp
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "avatar-" + uniqueSuffix + path.extname(file.originalname));
-  },
+
+
+cloudinary.config({
+  cloud_name: "dh65ma6ig",
+  api_key: "892759473582777",
+  api_secret: "YJsOUOcPeh_jfiIkH-vofdIh8Rs",
 });
+
+
+const storage = multer.memoryStorage(); 
 
 // Create the multer upload object
 const uploadAvatar = multer({ storage: storage });

@@ -453,16 +453,9 @@ const uploadAvatar = async (avatarFile) => {
     const formData = new FormData();
     formData.append("avatar", avatarFile);
 
-    const response = await axios.post(
-      `${baseURL}/auth/upload-avatar`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
+    const response = await axios.post(`${baseURL}/avatars/uploadAvatar`,formData, {
+        headers: { "Content-Type": "multipart/form-data",},
+    });
     return response.data;
   } catch (error) {
     console.error("Error uploading avatar:", error);

@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const path = require("path");
-const fs = require("fs");
+
+
 
 
 
@@ -93,35 +93,8 @@ const loginUser = async (req, res) => {
   }
 };
 
-const uploadAvatar = (req, res, next) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No avatar file received" });
-    }
-
-    // Get the uploaded file information
-    const { filename, path: filePath } = req.file;
-    console.log("Uploaded Avatar:", filename); 
-
-    // Generate a new unique filename for the uploaded avatar
-    const uniqueFilename = `avatar-${Date.now()}${path.extname(filename)}`;
-
-    // Define the directory to move the avatar file to
-    const targetDirectory = path.join(__dirname, "../uploads/avatars");
-
-    // Move the uploaded file to the target directory with the new unique filename
-    fs.renameSync(filePath, path.join(targetDirectory, uniqueFilename));
-
-    // Set the avatar path in the request for further processing
-    req.avatarPath = `/uploads/avatars/${uniqueFilename}`;
-
-    // Call the next middleware
-    next();
-  } catch (error) {
-    console.error("Error uploading avatar:", error);
-    return res.status(500).json({ message: "this error" });
-  }
-};
 
 
-module.exports = { registerUser, loginUser, completeSecondPhase, uploadAvatar };
+
+
+module.exports = { registerUser, loginUser, completeSecondPhase };
