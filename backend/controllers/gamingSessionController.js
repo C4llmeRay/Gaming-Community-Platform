@@ -125,7 +125,7 @@ const acceptRSVP = async (req, res) => {
 const declineRSVP = async (req, res) => {
   try {
     const sessionId = req.params.sessionId;
-    const userId = req.user._id; // Use the authenticated user's ID instead of getting it from the request body
+    const userId = req.user._id; 
 
     const session = await GamingSession.findById(sessionId);
     if (!session) {
@@ -237,11 +237,39 @@ const getJoinedGamingSessions = async (req, res) => {
     const userId = req.user.id;
 
     // Perform the query to fetch the gaming sessions where the user has joined
-    const gamingSessions = await GamingSession.find({ joinedPlayers: userId });
+    const gamingSessions = await GamingSession.find({ joinedPlayers: userId })
+      .populate("joinedPlayers", "username") // Populate joinedPlayers with username field
+      .populate("host", "username"); 
 
     res.json(gamingSessions);
   } catch (error) {
     console.error("Error fetching user's joined gaming sessions:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+// Leave a gaming session
+const leaveGamingSession = async (req, res) => {
+  try {
+    const sessionId = req.params.sessionId;
+    const userId = req.user._id;
+
+    const session = await GamingSession.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: "Gaming session not found" });
+    }
+
+    // Check if the user has already joined the session
+    if (!session.joinedPlayers.includes(userId)) {
+      return res.status(400).json({ message: "You have not joined this session" });
+    }
+
+    // Remove the user from joinedPlayers array
+    session.joinedPlayers.pull(userId);
+    await session.save();
+
+    return res.json({ message: "You have successfully left the gaming session" });
+  } catch (error) {
+    console.error("Error leaving gaming session:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -259,4 +287,5 @@ module.exports = {
   sendInvitation,
   getUserInvitations,
   getJoinedGamingSessions,
+  leaveGamingSession,
 };

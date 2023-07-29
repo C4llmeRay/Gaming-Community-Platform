@@ -521,6 +521,26 @@ const getJoinedGamingSessions = async () => {
     throw error;
   }
 };
+// Function to leave a gaming session
+const leaveGamingSession = async (sessionId) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/gamingSessions/sessions/${sessionId}/leave`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log("Leave response:", response.data); 
+    return response.data;
+  } catch (error) {
+    console.error("Error leaving gaming session:", error);
+    throw new Error("Error leaving gaming session:", error);
+  }
+};
+
 
 export {
   setAuthToken,
@@ -564,4 +584,5 @@ export {
   searchFriends,
   searchGamingSessions,
   getJoinedGamingSessions,
+  leaveGamingSession,
 };
