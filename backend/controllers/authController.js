@@ -3,10 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
-
-
-
-
 const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -92,9 +88,6 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
-
 
 
 module.exports = { registerUser, loginUser, completeSecondPhase };
