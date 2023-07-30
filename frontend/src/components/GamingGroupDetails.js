@@ -46,7 +46,7 @@ const GamingGroupDetails = () => {
     const messageObject = {
       text: message,
       groupId: groupDetails._id,
-      sender: currentUser, // Pass the entire currentUser object as the sender
+      sender: currentUser, 
     };
 
     try {

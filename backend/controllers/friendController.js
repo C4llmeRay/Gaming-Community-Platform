@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const mongoose = require('mongoose');
+const Notification = require("../models/Notification");
+
 
 
 const sendFriendRequest = async (req, res) => {
@@ -9,12 +11,16 @@ const sendFriendRequest = async (req, res) => {
 
     // Check if the user is trying to send a friend request to themselves
     if (currentUser._id.equals(userId)) {
-      return res.status(400).json({ message: 'You cannot send a friend request to yourself' });
+      return res
+        .status(400)
+        .json({ message: "You cannot send a friend request to yourself" });
     }
 
     // Check if the target user is already in the current user's friends list
     if (currentUser.friends.some((friend) => friend.userId.equals(userId))) {
-      return res.status(400).json({ message: 'You are already friends with this user' });
+      return res
+        .status(400)
+        .json({ message: "You are already friends with this user" });
     }
 
     // Check if the target user already has a pending friend request from the current user
@@ -25,13 +31,20 @@ const sendFriendRequest = async (req, res) => {
       (request) => request && request.sender.userId
     );
 
-    if (filteredFriendRequests.some((request) => request.sender.userId.equals(currentUser._id))) {
-      return res.status(400).json({ message: 'Friend request already sent' });
+    if (
+      filteredFriendRequests.some((request) =>
+        request.sender.userId.equals(currentUser._id)
+      )
+    ) {
+      return res.status(400).json({ message: "Friend request already sent" });
     }
+
+    // Generate a unique ID for the friend request
+    const requestId = new mongoose.Types.ObjectId();
 
     // Update the target user's friend requests list and add the current user
     targetUser.friendRequests.push({
-      requestId: new mongoose.Types.ObjectId(), // Generate a unique ID for the friend request
+      requestId,
       sender: {
         userId: currentUser._id,
         username: currentUser.username,
@@ -40,10 +53,22 @@ const sendFriendRequest = async (req, res) => {
     });
     await targetUser.save();
 
-    return res.json({ message: 'Friend request sent successfully' });
+    // Create a notification for the target user
+    const notification = new Notification({
+      recipient: userId,
+      type: "friend_request",
+      data: {
+        requestId, // Use the defined requestId here
+        senderId: currentUser._id,
+        senderUsername: currentUser.username,
+      },
+    });
+    await notification.save();
+
+    return res.json({ message: "Friend request sent successfully" });
   } catch (error) {
-    console.error('Error sending friend request:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    console.error("Error sending friend request:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -104,12 +129,30 @@ const acceptFriendRequest = async (req, res) => {
     );
 
     // Add the sender to the current user's friends
-    currentUser.friends.push({userId: friendRequest.sender.userId, username: friendRequest.sender.username});
+    currentUser.friends.push({
+      userId: friendRequest.sender.userId,
+      username: friendRequest.sender.username,
+    });
 
     // Add the current user to the sender's friends
-    sender.friends.push({userId: currentUser._id, username: currentUser.username });
+    sender.friends.push({
+      userId: currentUser._id,
+      username: currentUser.username,
+    });
 
     await Promise.all([currentUser.save(), sender.save()]);
+
+    // Create and save the notification for the current user
+    const notification = new Notification({
+      recipient: currentUser._id,
+      type: "friend_request_accepted",
+      data: {
+        senderId: friendRequest.sender.userId,
+        senderUsername: friendRequest.sender.username,
+      },
+    });
+
+    await notification.save();
 
     return res.json({ message: "Friend request accepted successfully" });
   } catch (error) {
@@ -117,6 +160,7 @@ const acceptFriendRequest = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 
 

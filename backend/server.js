@@ -8,6 +8,7 @@ const chatMessagesRoutes = require('./routes/chatMessages');
 const gamingSessionRoutes = require('./routes/gamingSession')
 const avatarRoutes = require("./routes/avatarRoutes");
 const searchRoutes = require("./routes/search");
+const notification = require("./routes/notification")
 const dotenv = require('dotenv');
 const http = require('http');
 const { chatSocket } = require('./sockets/chatSocket'); 
@@ -36,6 +37,7 @@ app.use('/chatMessages', chatMessagesRoutes);
 app.use('/gamingSessions', gamingSessionRoutes);
 app.use("/search", searchRoutes);
 app.use("/avatars", avatarRoutes);
+app.use("/notifications", notification);
 
 
 // Create an HTTP server using the Express app

@@ -540,6 +540,52 @@ const leaveGamingSession = async (sessionId) => {
     throw new Error("Error leaving gaming session:", error);
   }
 };
+// Function to get current user notifications
+const getNotifications = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No JWT token found");
+    }
+
+    const response = await axios.get(`${baseURL}/notifications`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Fetch user data for each notification and replace the appropriate ID with user data
+    const populatedNotifications = await Promise.all(
+      response.data.map(async (notification) => {
+        const { type, data } = notification;
+        let userId;
+        if (type === "follow") {
+          userId = data.followerId;
+        } else if (type === "friend_request" || type === "friend_request_accepted") {
+          userId = data.senderId;
+        }
+
+        if (!userId) {
+          throw new Error("Invalid notification data");
+        }
+
+        const userData = await getOtherUserProfile(userId);
+        return {
+          ...notification,
+          data: {
+            ...data,
+            followerData: userData,
+          },
+        };
+      })
+    );
+
+    return populatedNotifications;
+  } catch (error) {
+    throw new Error("Error fetching notifications:", error);
+  }
+};
+
 
 
 export {
@@ -585,4 +631,5 @@ export {
   searchGamingSessions,
   getJoinedGamingSessions,
   leaveGamingSession,
+  getNotifications,
 };

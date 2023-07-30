@@ -5,18 +5,17 @@ import { getUserProfile, unfriendUser } from '../api';
 
 const MyFriends = () => {
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null); // Declare currentUserId state
+  const [currentUserId, setCurrentUserId] = useState(null); 
 
   useEffect(() => {
-    // Decode the JWT token to get the current user ID
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwt_decode(token);
       const currentUserId = decodedToken.userId;
       console.log('Current User ID:', currentUserId);
-      setCurrentUserId(currentUserId); // Set the currentUserId state
+      setCurrentUserId(currentUserId); 
     }
-  }, []); // Empty dependency array, runs only once on mount
+  }, []); 
 
   useEffect(() => {
     const fetchCurrentUserProfile = async () => {
@@ -54,8 +53,7 @@ const MyFriends = () => {
     return <div>Loading...</div>;
   }
 
-  console.log('Current User ID:', currentUserProfile._id); // Log the current user ID
-  console.log('Current User Friends:', currentUserProfile.friends); // Log the current user's friends array
+
 
   return (
     <div>
