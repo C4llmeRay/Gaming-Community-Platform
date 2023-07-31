@@ -25,11 +25,7 @@ const notificationSocket = (server) => {
       socket.leave(userId);
       console.log(`User ${userId} left the room`);
     });
-
-    // Handle other notification-related events here
-    // For example, receiving and sending notifications
-
-    // Emit a sample notification to the client every 30 seconds (for testing purposes)
+    
     setInterval(() => {
       const notificationData = {
         message: "This is a sample notification",

@@ -1,25 +1,28 @@
 const mongoose = require("mongoose");
 
-const directMessageSchema = new mongoose.Schema(
+const directChatMessageSchema = new mongoose.Schema(
   {
+    text: {
+      type: String,
+      required: true,
+    },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    recipient: {
+    receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-    },
-    content: {
-      type: String,
       required: true,
     },
   },
   { timestamps: true }
 );
 
-const DirectMessage = mongoose.model("DirectMessage", directMessageSchema);
+const DirectChatMessage = mongoose.model(
+  "DirectChatMessage",
+  directChatMessageSchema
+);
 
-module.exports = DirectMessage;
+module.exports = DirectChatMessage;

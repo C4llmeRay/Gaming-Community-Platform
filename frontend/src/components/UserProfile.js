@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { getOtherUserProfile, sendFriendRequest, followUser, unfollowUser, unfriendUser  } from '../api';
+import DirectMessages from "./DirectMessages";
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -86,21 +87,20 @@ const UserProfile = () => {
   return <div>Loading...</div>;
 }
 
-console.log('Current User ID:', userProfile.currentUserId); // Log the current user ID
-console.log('Target User Followers:', userProfile.followers); // Log the target user's followers array
-
 // Check if the current user is a friend of the target user
 const isCurrentUserFriend = userProfile.friends.some(
   (friend) => friend.userId === currentUserId
 );
+console.log(userId)
 
 return (
   <div>
     <h2>User Profile</h2>
     <p>Username: {userProfile.username}</p>
-    <p>Gaming Preferences: {userProfile.gamingPreferences.join(', ')}</p>
+    <p>Gaming Preferences: {userProfile.gamingPreferences.join(", ")}</p>
     <p>Number of Friends: {userProfile.friends.length}</p>
     <p>Number of Followers: {userProfile.followers.length}</p>
+    {userProfile.avatar && <img src={userProfile.avatar} alt="User Avatar" />}
     {isCurrentUserFollowing ? (
       <button onClick={handleUnfollowUser}>Unfollow</button>
     ) : (
@@ -116,6 +116,8 @@ return (
         )}
       </>
     )}
+    {/* Direct Messages */}
+    <DirectMessages userId={userId} />
   </div>
 );
 };

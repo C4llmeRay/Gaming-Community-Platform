@@ -15,6 +15,7 @@ import Invitations from './components/Invitations';
 import SearchUser from './components/SearchUser';
 import SearchGroups from './components/SearchGroups';
 import UserJoinedSessions from './components/UserJoinedSessions';
+import Notifications from './components/Notifications';
 
 
 
@@ -36,6 +37,7 @@ const AppRouter = () => {
       <Route path="/searchUsers" element={<SearchUser />} />
       <Route path="/searchGroups" element={<SearchGroups />} />
       <Route path="/joinedSessions" element={<UserJoinedSessions />} />
+      <Route path="/notifications" element={<Notifications />} />
     </Routes>
   );
 };

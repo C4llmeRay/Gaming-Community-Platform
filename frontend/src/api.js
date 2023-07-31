@@ -585,9 +585,60 @@ const getNotifications = async () => {
     throw new Error("Error fetching notifications:", error);
   }
 };
+// Function to send a direct chat message
+const sendDirectMessage = async (conversationId, message) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/directChatMessages/${conversationId}`,
+      {
+        text: message.text,
+        receiver: message.receiver,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
+// Function to get conversation messages for a specific conversation
+const getConversationMessages = async (conversationId) => {
+  try {
+    const response = await axios.get(`${baseURL}/directChatMessages/${conversationId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
+// Function to get all conversations for a specific user
+const getAllConversations = async (userId) => {
+  try {
+    const response = await axios.get(`${baseURL}/directChatMessages/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
+// Function to get or create a conversation between two users
+const getOrCreateConversation = async (userId) => {
+  try {
+    const response = await axios.post(`${baseURL}/directChatMessages/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+// Function to delete a direct chat message
+const deleteDirectMessage = async (messageId) => {
+  try {
+    await axios.delete(`${baseURL}/directChatMessages/${messageId}`);
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 export {
   setAuthToken,
   getAllUsers,
@@ -632,4 +683,9 @@ export {
   getJoinedGamingSessions,
   leaveGamingSession,
   getNotifications,
+  sendDirectMessage,
+  getConversationMessages,
+  getAllConversations,
+  getOrCreateConversation,
+  deleteDirectMessage,
 };

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,33 +14,39 @@ const userSchema = new mongoose.Schema(
       instagram: String,
     },
     hasCompletedSecondPhase: { type: Boolean, default: false },
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     friends: [
       {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         username: { type: String },
       },
     ],
     friendRequests: [
       {
-        requestId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        requestId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         sender: {
-          userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
           username: { type: String },
           friends: [
             {
               type: mongoose.Schema.Types.ObjectId,
-              ref: 'User',
+              ref: "User",
             },
           ],
         },
+      },
+    ],
+    conversations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Conversation",
       },
     ],
   },
   { timestamps: true }
 );
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
