@@ -12,16 +12,15 @@ const sendMessage = async (req, res) => {
       sender,
     });
 
-    // Get the chatSocket instance
     const chatSocket = getChatSocket();
 
     // Send the chat message to connected clients
-    chatSocket.to(groupId).emit('message', message);
+    chatSocket.to(groupId).emit("message", message);
 
-    res.status(200).json({ message: 'Chat message sent successfully' });
+    res.status(200).json({ message: "Chat message sent successfully" });
   } catch (error) {
-    console.error('Error sending chat message:', error);
-    res.status(500).json({ error: 'Failed to send chat message' });
+    console.error("Error sending chat message:", error);
+    res.status(500).json({ error: "Failed to send chat message" });
   }
 };
 

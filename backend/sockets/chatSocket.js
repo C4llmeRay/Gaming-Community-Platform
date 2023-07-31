@@ -1,5 +1,4 @@
 const socketio = require("socket.io");
-const ChatMessage = require("../models/chatMessage");
 
 let io;
 
@@ -10,8 +9,8 @@ const chatSocket = (server) => {
     },
   });
 
-  io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id);
+  io.on("connections", (socket) => {
+    console.log("A user connected to chat:", socket.id);
     const groupId = socket.handshake.query.groupId;
     socket.join(groupId);
   });

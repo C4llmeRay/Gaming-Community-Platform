@@ -12,7 +12,7 @@ const DirectMessages = ({ userId }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [message, setMessage] = useState("");
   const [conversationMessages, setConversationMessages] = useState([]);
-  const [socket, setSocket] = useState(null);
+  const [directMessagesSocket, setDirectMessagesSocket] = useState(null);
   const [conversationId, setConversationId] = useState(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const DirectMessages = ({ userId }) => {
     if (token) {
       const decodedToken = jwt_decode(token);
       const currentUserId = decodedToken.userId;
-      setCurrentUser({ _id: currentUserId }); // Wrap the ID in an object to match the expected structure in the code
+      setCurrentUser({ _id: currentUserId });
     }
   }, []);
 
@@ -30,13 +30,11 @@ const DirectMessages = ({ userId }) => {
     const fetchConversation = async () => {
       try {
         const conversation = await getOrCreateConversation(userId);
-        setConversationId(conversation._id);
+        setConversationId([conversation._id]); // Convert to an array with a single element
 
         // Fetch the complete message objects using their IDs
-        const messages = await getConversationMessages(
-          conversation.directChatMessages
-        );
-        setConversationMessages(messages); // Store the fetched messages
+        const messages = await getConversationMessages(conversation._id);
+        setConversationMessages(messages.messages); // Store the fetched messages
       } catch (error) {
         console.error("Error fetching or creating conversation:", error);
       }
@@ -48,36 +46,37 @@ const DirectMessages = ({ userId }) => {
   }, [currentUser, userId]);
 
   useEffect(() => {
-    // Create a new socket.io connection
     if (conversationId) {
       const newSocket = io("http://localhost:5000", {
-        query: { conversationId },
+        query: { conversationId: conversationId[0] }, // Access the first element of the conversationId array
       });
 
       // Set the socket state with the new socket instance
-      setSocket(newSocket);
+      setDirectMessagesSocket(newSocket);
 
-      console.log("Socket connected with conversation ID:", conversationId);
+      console.log(
+        "Direct Messages Socket connected with conversation ID:",
+        conversationId
+      );
 
       // Clean up the socket connection on component unmount
       return () => {
         newSocket.disconnect();
-        console.log("Socket disconnected");
+        console.log("Direct Messages Socket disconnected");
       };
     }
   }, [conversationId]);
 
   useEffect(() => {
-    if (socket) {
+    if (directMessagesSocket) {
       // Listen for incoming direct messages
-      socket.on("direct_message", (message) => {
+      directMessagesSocket.on("direct_message", (message) => {
         console.log("Received direct message:", message);
         setConversationMessages((prevMessages) => [...prevMessages, message]);
       });
     }
-  }, [socket]);
+  }, [directMessagesSocket]);
 
-  // Remove the initial message
   useEffect(() => {
     setConversationMessages((prevMessages) =>
       prevMessages.filter(
@@ -91,9 +90,7 @@ const DirectMessages = ({ userId }) => {
       text: message,
       receiver: userId,
     };
-
     console.log("Sending message object:", messageObject);
-
     try {
       if (conversationId) {
         // Send the direct message to the server, passing the conversation ID as a URL parameter
@@ -102,11 +99,9 @@ const DirectMessages = ({ userId }) => {
         // If conversationId is not available, fetch or create the conversation first
         const conversation = await getOrCreateConversation(userId);
         setConversationId(conversation._id); // Update this line
-
         // Then send the direct message to the server, passing the conversation ID as a URL parameter
         await sendDirectMessage(conversation._id, messageObject); // Update this line
       }
-
       setMessage("");
     } catch (error) {
       console.error("Error sending direct message:", error);
@@ -133,7 +128,8 @@ const DirectMessages = ({ userId }) => {
       <p>User ID: {userId}</p>
       <div>
         <h3>Direct Chat Messages:</h3>
-        {conversationMessages.length === 0 ? (
+        {Array.isArray(conversationMessages) &&
+        conversationMessages.length === 0 ? (
           <p>No direct messages</p>
         ) : (
           conversationMessages.map((message, index) => (
