@@ -7,6 +7,7 @@ import {
   getConversationMessages,
 } from "../api";
 import { io } from "socket.io-client";
+import '../styles/DirectMessages.css'; 
 
 const DirectMessages = ({ userId }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -123,21 +124,24 @@ const DirectMessages = ({ userId }) => {
   };
 
   return (
-    <div>
+    <div className="direct-messages-container">
       <h2>Direct Messages</h2>
       <p>User ID: {userId}</p>
-      <div>
+      <div className="chat-messages">
         <h3>Direct Chat Messages:</h3>
         {Array.isArray(conversationMessages) &&
         conversationMessages.length === 0 ? (
           <p>No direct messages</p>
         ) : (
           conversationMessages.map((message, index) => (
-            <div key={index}>
+            <div key={index} className="message">
               <p>
                 {message.sender.username}: {message.text}
                 {currentUser && currentUser._id === message.sender._id && (
-                  <button onClick={() => handleDeleteMessage(message._id)}>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteMessage(message._id)}
+                  >
                     Delete
                   </button>
                 )}
@@ -146,12 +150,17 @@ const DirectMessages = ({ userId }) => {
           ))
         )}
       </div>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={handleSendMessage}>Send Direct Message</button>
+      <div className="input-container">
+        <input
+          type="text"
+          className="message-input"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button className="send-button" onClick={handleSendMessage}>
+          Send Direct Message
+        </button>
+      </div>
     </div>
   );
 };

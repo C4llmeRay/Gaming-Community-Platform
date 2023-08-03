@@ -1,0 +1,59 @@
+/* Main container */
+.direct-messages-container {
+    background-color: #000000;
+    color: white;
+    padding: 20px;
+}
+
+/* Chat messages container */
+.chat-messages {
+    border: 1px solid #3d0000;
+    border-radius: 8px;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Individual message */
+.message {
+    margin: 8px 0;
+    padding: 6px;
+    border: 1px solid #3d0000;
+    border-radius: 4px;
+}
+
+/* Delete button */
+.delete-button {
+    background-color: #950101;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+/* Input and button container */
+.input-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Message input field */
+.message-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #3d0000;
+    border-radius: 4px;
+}
+
+/* Send button */
+.send-button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUserProfile, updateUserProfile, uploadAvatar } from "../api";
 import { getUserIdFromToken } from "../helpers";
+import '../styles/Profile.css'
 
 const predefinedGames = [
   "Fortnite",
@@ -141,40 +142,57 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <h2>User Profile</h2>
+    <div className="user-profile-container">
+      <h2 className="profile-heading">User Profile</h2>
       {userProfile && !editMode ? (
-        <div>
-          <p>Username: {userProfile.username}</p>
-          <p>Email: {userProfile.email}</p>
-          <p>Bio: {userProfile.bio || "No bio provided"}</p>
-          <p>Gaming Preferences:</p>
-          <ul>
+        <div className="user-info">
+          <p className="username">Username: {userProfile.username}</p>
+          <p className="email">Email: {userProfile.email}</p>
+          <p className="bio">Bio: {userProfile.bio || "No bio provided"}</p>
+          <p className="gaming-prefs-heading">Gaming Preferences:</p>
+          <ul className="gaming-prefs-list">
             {userProfile.gamingPreferences.length === 0 ? (
               <li>No preferences provided</li>
             ) : (
               userProfile.gamingPreferences.map((pref) => (
-                <li key={pref}>{pref}</li>
+                <li key={pref} className="gaming-pref">
+                  {pref}
+                </li>
               ))
             )}
           </ul>
           {userProfile.avatar && (
-            <img src={userProfile.avatar} alt="User Avatar" />
+            <img
+              className="user-avatar"
+              src={userProfile.avatar}
+              alt="User Avatar"
+            />
           )}
           {userProfile.socialLinks?.twitter && (
-            <p>Twitter: {userProfile.socialLinks.twitter}</p>
+            <p className="twitter">
+              Twitter: {userProfile.socialLinks.twitter}
+            </p>
           )}
           {userProfile.socialLinks?.facebook && (
-            <p>Facebook: {userProfile.socialLinks.facebook}</p>
+            <p className="facebook">
+              Facebook: {userProfile.socialLinks.facebook}
+            </p>
           )}
           {userProfile.socialLinks?.instagram && (
-            <p>Instagram: {userProfile.socialLinks.instagram}</p>
+            <p className="instagram">
+              Instagram: {userProfile.socialLinks.instagram}
+            </p>
           )}
-          <button onClick={handleEditButtonClick}>Edit Profile</button>
+          <button
+            className="edit-profile-button"
+            onClick={handleEditButtonClick}
+          >
+            Edit Profile
+          </button>
         </div>
       ) : (
-        <div>
-          <form encType="multipart/form-data">
+        <div className="user-info">
+          <form className="edit-form" encType="multipart/form-data">
             <label htmlFor="username">Username:</label>
             <input
               type="text"
@@ -278,7 +296,12 @@ const Profile = () => {
               <button onClick={handleCancelButtonClick}>Cancel</button>
             </>
           ) : (
-            <button onClick={handleEditButtonClick}>Edit Profile</button>
+            <button
+              className="edit-profile-button"
+              onClick={handleEditButtonClick}
+            >
+              Edit Profile
+            </button>
           )}
         </div>
       )}

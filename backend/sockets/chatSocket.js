@@ -9,7 +9,7 @@ const chatSocket = (server) => {
     },
   });
 
-  io.on("connections", (socket) => {
+  io.on("connection", (socket) => {
     console.log("A user connected to chat:", socket.id);
     const groupId = socket.handshake.query.groupId;
     socket.join(groupId);

@@ -3,20 +3,22 @@ import { useParams } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { getOtherUserProfile, sendFriendRequest, followUser, unfollowUser, unfriendUser  } from '../api';
 import DirectMessages from "./DirectMessages";
+import '../styles/UserProfile.css'
 
 const UserProfile = () => {
   const { userId } = useParams();
   const [userProfile, setUserProfile] = useState(null);
   const [isCurrentUserFollowing, setIsCurrentUserFollowing] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(null); // Declare currentUserId state
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [showDirectMessages, setShowDirectMessages] = useState(false);
 
   useEffect(() => {
     // Decode the JWT token to get the current user ID
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwt_decode(token);
       const currentUserId = decodedToken.userId;
-      console.log('Current User ID:', currentUserId);
+      console.log("Current User ID:", currentUserId);
       setCurrentUserId(currentUserId); // Set the currentUserId state
     }
   }, []); // Empty dependency array, runs only once on mount
@@ -25,10 +27,10 @@ const UserProfile = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await getOtherUserProfile(userId);
-        setUserProfile(response);;
+        setUserProfile(response);
         setIsCurrentUserFollowing(response.followers.includes(currentUserId));
       } catch (error) {
-        console.error('Error fetching user profile:', error);
+        console.error("Error fetching user profile:", error);
       }
     };
 
@@ -43,7 +45,7 @@ const UserProfile = () => {
       await sendFriendRequest(userId);
       // Handle success or update state if needed
     } catch (error) {
-      console.error('Error sending friend request:', error);
+      console.error("Error sending friend request:", error);
     }
   };
 
@@ -52,74 +54,105 @@ const UserProfile = () => {
       await followUser(userId);
       setIsCurrentUserFollowing(true);
     } catch (error) {
-      console.error('Error following user:', error);
+      console.error("Error following user:", error);
     }
   };
 
   const handleUnfollowUser = async () => {
-    const confirmation = window.confirm('Are you sure you want to unfollow this user?');
+    const confirmation = window.confirm(
+      "Are you sure you want to unfollow this user?"
+    );
     if (confirmation) {
-    try {
-      await unfollowUser(userId);
-      setIsCurrentUserFollowing(false);
-    } catch (error) {
-      console.error('Error unfollowing user:', error);
+      try {
+        await unfollowUser(userId);
+        setIsCurrentUserFollowing(false);
+      } catch (error) {
+        console.error("Error unfollowing user:", error);
+      }
     }
-  }
   };
 
-    const handleUnfriendUser = async (userId) => {
-  const confirmation = window.confirm('Are you sure you want to unfriend this user?');
-  if (confirmation) {
-    try {
-      await unfriendUser(userId);
-      // Handle success or update state if needed
-    } catch (error) {
-      console.error('Error unfriending user:', error);
+  const handleUnfriendUser = async (userId) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to unfriend this user?"
+    );
+    if (confirmation) {
+      try {
+        await unfriendUser(userId);
+        // Handle success or update state if needed
+      } catch (error) {
+        console.error("Error unfriending user:", error);
+      }
     }
-  }
-};
-
-
-
+  };
 
   if (!userProfile) {
-  return <div>Loading...</div>;
-}
+    return <div>Loading...</div>;
+  }
 
-// Check if the current user is a friend of the target user
-const isCurrentUserFriend = userProfile.friends.some(
-  (friend) => friend.userId === currentUserId
-);
-console.log(userId)
+  // Check if the current user is a friend of the target user
+  const isCurrentUserFriend = userProfile.friends.some(
+    (friend) => friend.userId === currentUserId
+  );
+  console.log(userId);
 
-return (
-  <div>
-    <h2>User Profile</h2>
-    <p>Username: {userProfile.username}</p>
-    <p>Gaming Preferences: {userProfile.gamingPreferences.join(", ")}</p>
-    <p>Number of Friends: {userProfile.friends.length}</p>
-    <p>Number of Followers: {userProfile.followers.length}</p>
-    {userProfile.avatar && <img src={userProfile.avatar} alt="User Avatar" />}
-    {isCurrentUserFollowing ? (
-      <button onClick={handleUnfollowUser}>Unfollow</button>
-    ) : (
-      <button onClick={handleFollowUser}>Follow</button>
-    )}
-    {isCurrentUserFriend ? (
-      <button onClick={() => handleUnfriendUser(userId)}>Unfriend</button>
-    ) : (
-      <>
-        {userProfile._id !== currentUserId && (
-          // Render the "Send Friend Request" button only if the user is not viewing their own profile
-          <button onClick={handleSendFriendRequest}>Send Friend Request</button>
-        )}
-      </>
-    )}
-    {/* Direct Messages */}
-    <DirectMessages userId={userId} />
-  </div>
-);
+  return (
+    <div className="user-profile-container">
+      <h2>User Profile</h2>
+      {userProfile && (
+        <div className="user-info">
+          <p>Username: {userProfile.username}</p>
+          <p>Gaming Preferences: {userProfile.gamingPreferences.join(", ")}</p>
+          <p>Number of Friends: {userProfile.friends.length}</p>
+          <p>Number of Followers: {userProfile.followers.length}</p>
+          {userProfile.avatar && (
+            <img
+              className="avatar"
+              src={userProfile.avatar}
+              alt="User Avatar"
+            />
+          )}
+        </div>
+      )}
+      {isCurrentUserFollowing ? (
+        <button className="unfollow-button" onClick={handleUnfollowUser}>
+          Unfollow
+        </button>
+      ) : (
+        <button className="follow-button" onClick={handleFollowUser}>
+          Follow
+        </button>
+      )}
+      {isCurrentUserFriend ? (
+        <button
+          className="unfriend-button"
+          onClick={() => handleUnfriendUser(userId)}
+        >
+          Unfriend
+        </button>
+      ) : (
+        <>
+          {userProfile._id !== currentUserId && (
+            <button
+              className="send-friend-request-button"
+              onClick={handleSendFriendRequest}
+            >
+              Send Friend Request
+            </button>
+          )}
+        </>
+      )}
+      <button
+        className="send-message-button"
+        onClick={() => setShowDirectMessages(true)}
+      >
+        Send Message
+      </button>
+      {/* Show DirectMessages component if showDirectMessages is true */}
+      {showDirectMessages && <DirectMessages userId={userId} />}
+    </div>
+  );
 };
+
 
 export default UserProfile;

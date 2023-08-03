@@ -42,9 +42,9 @@ app.use("/directChatMessages", directChatMessagesRoutes);
 // Create an HTTP server using the Express app
 const server = http.createServer(app);
 
-// Initialize the chatSocket passing the server instance
-directMessagesSocket(server);
+// Initialize the chatSocket and directMessagesSocket passing the server instance
 chatSocket(server);
+directMessagesSocket(server);
 
 // Start the server
 server.listen(PORT, () => {
