@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { completeSecondPhase } from '../api';
+import "../styles/SecondPhase.css";
 
 const predefinedGames = [
   'Fortnite',
@@ -12,10 +13,6 @@ const predefinedGames = [
 
 const predefinedAvatars = [
   "https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 ];
 
 const SecondPhase = () => {
@@ -24,8 +21,8 @@ const SecondPhase = () => {
   const { userId } = location.state ?? {}; // Get the userId from the state passed through the location
 
   const [formData, setFormData] = useState({
-    gamingPreferences: '', 
-    avatar: '',
+    gamingPreferences: "",
+    avatar: "",
   });
 
   const handleInputChange = (e) => {
@@ -44,27 +41,35 @@ const SecondPhase = () => {
       }
 
       // Call the API to complete the second phase with gaming preferences and avatar
-      const response = await completeSecondPhase(userId, gamingPreferences, avatar);
+      const response = await completeSecondPhase(
+        userId,
+        gamingPreferences,
+        avatar
+      );
       if (response) {
         // If the second phase is completed successfully, redirect to the profile page
-        navigate('/profile');
+        navigate("/login");
       }
     } catch (error) {
       // Handle any errors, such as server issues
-      console.error('Error completing second phase:', error);
-      alert('There was an error completing the second phase. Please try again later.');
+      console.error("Error completing second phase:", error);
+      alert(
+        "There was an error completing the second phase. Please try again later."
+      );
     }
   };
 
   const handleSkipButtonClick = () => {
     // If the user chooses to skip the second phase, redirect to the profile page
-    navigate('/profile');
+    navigate("/profile");
   };
 
   return (
-    <div>
-      <h2>Second Phase</h2>
-      <label htmlFor="gamingPreferences">Gaming Preferences:</label>
+    <div className="second-phase-container">
+      <h2 className="second-phase-heading">Second Phase</h2>
+      <label className="second-phase-label" htmlFor="gamingPreferences">
+        Gaming Preferences
+      </label>
       <select
         id="gamingPreferences"
         name="gamingPreferences"
@@ -79,8 +84,15 @@ const SecondPhase = () => {
         ))}
       </select>
       <br />
-      <label htmlFor="avatar">Avatar:</label>
-      <select id="avatar" name="avatar" value={formData.avatar} onChange={handleInputChange}>
+      <label className="second-phase-label" htmlFor="avatar">
+        Avatar
+      </label>
+      <select
+        id="avatar"
+        name="avatar"
+        value={formData.avatar}
+        onChange={handleInputChange}
+      >
         <option value="">Select an avatar</option>
         {predefinedAvatars.map((avatar) => (
           <option key={avatar} value={avatar}>
@@ -89,8 +101,12 @@ const SecondPhase = () => {
         ))}
       </select>
       <br />
-      <button onClick={handleCompleteButtonClick}>Complete Second Phase</button>
-      <button onClick={handleSkipButtonClick}>Skip</button>
+      <button className="complete-button" onClick={handleCompleteButtonClick}>
+        Complete Second Phase
+      </button>
+      <button className="skip-button" onClick={handleSkipButtonClick}>
+        Skip
+      </button>
     </div>
   );
 };

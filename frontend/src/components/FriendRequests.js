@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getFriendRequests, declineFriendRequest, acceptFriendRequest } from '../api';
+import '../styles/FriendRequests.css'
 
 const fetchFriendRequests = async () => {
   try {
@@ -24,14 +25,14 @@ const FriendRequests = () => {
   }, []);
 
   const handleAcceptRequest = async (requestId) => {
-  try {
-    await acceptFriendRequest(requestId); // Pass the requestId directly
-    const updatedFriendRequests = await fetchFriendRequests();
-    setFriendRequests(updatedFriendRequests);
-  } catch (error) {
-    console.error('Error accepting friend request:', error);
-  }
-};
+    try {
+      await acceptFriendRequest(requestId); // Pass the requestId directly
+      const updatedFriendRequests = await fetchFriendRequests();
+      setFriendRequests(updatedFriendRequests);
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+    }
+  };
 
   const handleDeclineRequest = async (requestId) => {
     try {
@@ -39,7 +40,7 @@ const FriendRequests = () => {
       // If needed, update the state or handle success
       fetchFriendRequests();
     } catch (error) {
-      console.error('Error declining friend request:', error);
+      console.error("Error declining friend request:", error);
     }
   };
 
@@ -47,19 +48,38 @@ const FriendRequests = () => {
     return <div>No friend requests at the moment.</div>;
   }
 
-     return (
-     <div>
-      <h2>Friend Requests</h2>
+  return (
+    <div className="friend-requests-container">
+      <h2 className="friend-requests-heading">Friend Requests</h2>
       {friendRequests.map((request) => (
-        <div key={request._id}>
-          <p>From: <Link to={`/profile/${request.sender.userId}`}>{request.sender.username}</Link></p>
-          <button onClick={() => handleAcceptRequest(request._id)}>Accept</button>
-          <button onClick={() => handleDeclineRequest(request._id)}>Decline</button>
+        <div key={request._id} className="friend-request">
+          <p className="request-sender">
+            From:{" "}
+            <Link
+              to={`/profile/${request.sender.userId}`}
+              className="sender-link"
+            >
+              {request.sender.username}
+            </Link>
+          </p>
+          <button
+            className="accept-button"
+            onClick={() => handleAcceptRequest(request._id)}
+          >
+            Accept
+          </button>
+          <button
+            className="decline-button"
+            onClick={() => handleDeclineRequest(request._id)}
+          >
+            Decline
+          </button>
         </div>
       ))}
     </div>
   );
 };
+
 
 export default FriendRequests;
 

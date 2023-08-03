@@ -61,7 +61,7 @@ const Header = () => {
             </span>
             <div className="dropdown-content">
               <Link to="/profile">Profile</Link>
-              <Link to="/myFriends">My Friends</Link>
+              <Link to="/myFriends">Friends</Link>
               <Link to="/friendRequests">Friend Requests</Link>
               <Logout />
             </div>

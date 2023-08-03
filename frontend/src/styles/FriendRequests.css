@@ -1,0 +1,53 @@
+/* FriendRequests.css */
+.friend-requests-container {
+    background-color: #ffffff;
+    color: #950101;
+    padding: 20px;
+    border-radius: 4px;
+    font-family: sans-serif;
+
+}
+
+.friend-requests-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.friend-request {
+    margin-bottom: 20px;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.request-sender {
+    margin-bottom: 10px;
+}
+
+.sender-link {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.sender-link:hover {
+    text-decoration: underline;
+}
+
+.accept-button,
+.decline-button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #3d0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.accept-button:hover,
+.decline-button:hover {
+    background-color: #950101;
+}
+
+/* Additional styling as needed */

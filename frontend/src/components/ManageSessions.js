@@ -95,8 +95,6 @@ const ManageSessions = () => {
     }
   };
 
-
-
   return (
     <div>
       <h2>Hosted Sessions</h2>

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../api'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../api";
+import "../styles/Register.css"; // Import the new stylesheet
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
 
   const handleInputChange = (e) => {
@@ -20,18 +21,20 @@ const Register = () => {
       const response = await registerUser(formData);
       if (response.token) {
         // If registration is successful, navigate to the second phase page and pass the userId in state
-        navigate('/second-phase', { state: { userId: response.userId } });
+        navigate("/second-phase", { state: { userId: response.userId } });
       }
     } catch (error) {
       // Handle any errors, such as duplicate username or email
-      console.error('Error registering user:', error);
+      console.error("Error registering user:", error);
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <label htmlFor="username">Username:</label>
+    <div className="register-container">
+      <h2 className="register-heading">Register</h2>
+      <label className="register-label" htmlFor="username">
+        Username:
+      </label>
       <input
         type="text"
         id="username"
@@ -40,7 +43,9 @@ const Register = () => {
         onChange={handleInputChange}
       />
       <br />
-      <label htmlFor="email">Email:</label>
+      <label className="register-label" htmlFor="email">
+        Email:
+      </label>
       <input
         type="email"
         id="email"
@@ -49,7 +54,9 @@ const Register = () => {
         onChange={handleInputChange}
       />
       <br />
-      <label htmlFor="password">Password:</label>
+      <label className="register-label" htmlFor="password">
+        Password:
+      </label>
       <input
         type="password"
         id="password"
@@ -58,7 +65,9 @@ const Register = () => {
         onChange={handleInputChange}
       />
       <br />
-      <button onClick={handleRegisterButtonClick}>Register</button>
+      <button className="register-button" onClick={handleRegisterButtonClick}>
+        Register
+      </button>
     </div>
   );
 };

@@ -126,13 +126,11 @@ const Profile = () => {
       console.log("Uploading Avatar...");
       const response = await uploadAvatar(avatarFile);
 
-      // If the avatar is uploaded successfully, update the avatar URL in the form data
       if (response && response.imageUrl) {
         setFormData((prevFormData) => ({
           ...prevFormData,
           avatar: response.imageUrl,
         }));
-        // Optionally, you can show a success message here
         alert("Avatar uploaded successfully!");
       }
     } catch (error) {
@@ -236,7 +234,6 @@ const Profile = () => {
             <br />
             {editMode ? (
               <>
-                {/* Add an input field to allow the user to select a new avatar */}
                 <label htmlFor="avatar">Select Avatar:</label>
                 <input
                   type="file"
@@ -244,8 +241,11 @@ const Profile = () => {
                   name="avatar"
                   onChange={handleAvatarChange}
                 />
-                {/* Add a button to upload the selected avatar */}
-                <button type="button" onClick={handleUploadAvatar}>
+                <button
+                  className="avatar-upload-button"
+                  type="button"
+                  onClick={handleUploadAvatar}
+                >
                   Upload Avatar
                 </button>
               </>
@@ -292,8 +292,18 @@ const Profile = () => {
           </form>
           {editMode ? (
             <>
-              <button onClick={handleSaveButtonClick}>Save Profile</button>
-              <button onClick={handleCancelButtonClick}>Cancel</button>
+              <button
+                className="avatar-upload-button"
+                onClick={handleSaveButtonClick}
+              >
+                Save Profile
+              </button>
+              <button
+                className="avatar-upload-button"
+                onClick={handleCancelButtonClick}
+              >
+                Cancel
+              </button>
             </>
           ) : (
             <button
