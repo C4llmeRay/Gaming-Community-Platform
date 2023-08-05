@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser, setAuthToken } from '../api';
-import '../styles/Login.css'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser, setAuthToken } from "../api";
+import "../styles/Login.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,27 +12,22 @@ const Login = () => {
   const [serverResponse, setServerResponse] = useState(null);
   const navigate = useNavigate();
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      setServerResponse(null); // Clear previous response
+      setServerResponse(null);
       const response = await loginUser(formData);
 
-      // If the login is successful, the server response will be the JWT token
-      setAuthToken(response.token); // Set the JWT token in axios headers
+      setAuthToken(response.token);
 
-      // Navigate the user to profile page after successful login.
       navigate("/profile");
     } catch (error) {
-      // Display the specific server error message if available, or fallback to a generic error message
       if (error?.response?.data?.message) {
         setServerResponse(error.response.data.message);
       } else {
@@ -49,7 +44,7 @@ const Login = () => {
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
           <label htmlFor="username" className="login-label">
-            Username:
+            Username
           </label>
           <input
             type="text"
@@ -62,7 +57,7 @@ const Login = () => {
         </div>
         <div className="form-group">
           <label htmlFor="password" className="login-label">
-            Password:
+            Password
           </label>
           <input
             type="password"

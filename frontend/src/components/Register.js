@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api";
-import "../styles/Register.css"; // Import the new stylesheet
+import "../styles/Register.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -20,11 +20,9 @@ const Register = () => {
     try {
       const response = await registerUser(formData);
       if (response.token) {
-        // If registration is successful, navigate to the second phase page and pass the userId in state
         navigate("/second-phase", { state: { userId: response.userId } });
       }
     } catch (error) {
-      // Handle any errors, such as duplicate username or email
       console.error("Error registering user:", error);
     }
   };
@@ -33,7 +31,7 @@ const Register = () => {
     <div className="register-container">
       <h2 className="register-heading">Register</h2>
       <label className="register-label" htmlFor="username">
-        Username:
+        Username
       </label>
       <input
         type="text"
@@ -44,7 +42,7 @@ const Register = () => {
       />
       <br />
       <label className="register-label" htmlFor="email">
-        Email:
+        Email
       </label>
       <input
         type="email"
@@ -55,7 +53,7 @@ const Register = () => {
       />
       <br />
       <label className="register-label" htmlFor="password">
-        Password:
+        Password
       </label>
       <input
         type="password"

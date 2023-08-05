@@ -6,6 +6,7 @@ import {
   editGamingSession,
   deleteGamingSession,
 } from "../api";
+import '../styles/ManageSessions.css'
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -96,48 +97,56 @@ const ManageSessions = () => {
   };
 
   return (
-    <div>
-      <h2>Hosted Sessions</h2>
+    <div className="manage-sessions-container">
+      <h2 className="manage-sessions-heading">Hosted Sessions</h2>
       {hostedGamingSessions.length === 0 ? (
-        <p>You have no hosted gaming sessions.</p>
+        <p className="no-sessions-message">
+          You have no hosted gaming sessions.
+        </p>
       ) : (
-        <ul>
+        <ul className="session-list">
           {hostedGamingSessions.map((session) => (
-            <li key={session._id}>
-              <p>Host: {session.host.username}</p>
-              <p>Game: {session.game}</p>
-              <p>Date: {formatDate(session.date)}</p>
-              <p>Time: {formatTime(session.time)}</p>
-              <p>Required Players: {session.requiredPlayers}</p>
-              {/* Show RSVP status if the user has already RSVPed */}
+            <li key={session._id} className="session-item">
+              <p className="session-detail">Host: {session.host.username}</p>
+              <p className="session-detail">Game: {session.game}</p>
+              <p className="session-detail">Date: {formatDate(session.date)}</p>
+              <p className="session-detail">Time: {formatTime(session.time)}</p>
+              <p className="session-detail">
+                Required Players: {session.requiredPlayers}
+              </p>
               {session.rsvpedPlayers.includes(currentUserId) && (
-                <p>
+                <p className="session-detail">
                   RSVPed -{" "}
                   {session.joinedPlayers.includes(currentUserId)
                     ? "Attending"
                     : "Not Attending"}
                 </p>
               )}
-              {/* Show "Edit" and "Delete" buttons when not in edit mode */}
               {!editingSession ? (
                 <>
-                  <button onClick={() => handleEditSession(session._id)}>
+                  <button
+                    className="session-actions edit-button"
+                    onClick={() => handleEditSession(session._id)}
+                  >
                     Edit
                   </button>
-                  <button onClick={() => handleDeleteSession(session._id)}>
+                  <button
+                    className="session-actions delete-button"
+                    onClick={() => handleDeleteSession(session._id)}
+                  >
                     Delete
                   </button>
                 </>
               ) : (
-                // Show session details and "Save" and "Cancel" buttons when in edit mode
                 editingSession._id === session._id && (
-                  <div>
+                  <div className="edit-session-form">
                     <h3>Edit Session</h3>
                     <form>
-                      <div>
-                        <label>Game:</label>
+                      <div className="form-group">
+                        <label htmlFor="game">Game:</label>
                         <input
                           type="text"
+                          id="game"
                           name="game"
                           value={editingSession.game}
                           onChange={(e) =>
@@ -146,12 +155,14 @@ const ManageSessions = () => {
                               game: e.target.value,
                             })
                           }
+                          className="form-control"
                         />
                       </div>
-                      <div>
-                        <label>Date:</label>
+                      <div className="form-group">
+                        <label htmlFor="date">Date:</label>
                         <input
                           type="date"
+                          id="date"
                           name="date"
                           value={editingSession.date}
                           onChange={(e) =>
@@ -160,12 +171,14 @@ const ManageSessions = () => {
                               date: e.target.value,
                             })
                           }
+                          className="form-control"
                         />
                       </div>
-                      <div>
-                        <label>Time:</label>
+                      <div className="form-group">
+                        <label htmlFor="time">Time:</label>
                         <input
                           type="time"
+                          id="time"
                           name="time"
                           value={editingSession.time}
                           onChange={(e) =>
@@ -174,12 +187,16 @@ const ManageSessions = () => {
                               time: e.target.value,
                             })
                           }
+                          className="form-control"
                         />
                       </div>
-                      <div>
-                        <label>Required Players:</label>
+                      <div className="form-group">
+                        <label htmlFor="requiredPlayers">
+                          Required Players:
+                        </label>
                         <input
                           type="number"
+                          id="requiredPlayers"
                           name="requiredPlayers"
                           value={editingSession.requiredPlayers}
                           onChange={(e) =>
@@ -188,12 +205,21 @@ const ManageSessions = () => {
                               requiredPlayers: e.target.value,
                             })
                           }
+                          className="form-control"
                         />
                       </div>
-                      <button type="button" onClick={handleSaveSession}>
+                      <button
+                        className="save-button"
+                        type="button"
+                        onClick={handleSaveSession}
+                      >
                         Save
                       </button>
-                      <button type="button" onClick={handleCancelEdit}>
+                      <button
+                        className="cancel-button"
+                        type="button"
+                        onClick={handleCancelEdit}
+                      >
                         Cancel
                       </button>
                     </form>

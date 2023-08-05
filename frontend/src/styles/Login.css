@@ -1,18 +1,19 @@
-/* Login.css */
 .login-container {
-    background-color: #1b1b1b;
-    color: white;
-    padding: 20px;
-    border-radius: 4px;
-    font-family:  sans-serif;
-    text-align: center;
-    max-width: 400px;
+    max-width: 100%;
     margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    color: #333;
+    text-align: center;
 }
 
 .login-heading {
-    font-size: 24px;
+    font-size: 28px;
     margin-bottom: 20px;
+    color: #950101;
 }
 
 .login-form {
@@ -28,15 +29,18 @@
     display: block;
     margin-bottom: 5px;
     text-align: left;
+    color: #3d0000;
+}
+
+.login-label::after {
+    content: ':';
 }
 
 .login-input {
     width: 100%;
     padding: 8px;
-    border: 1px solid #444;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #1b1b1b;
-    color: white;
 }
 
 .login-button {

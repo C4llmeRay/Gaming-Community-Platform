@@ -1,78 +1,130 @@
+/* ManageSessions.css */
 
+/* Container for the entire component */
 .manage-sessions-container {
-    background-color: #f2f2f2;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 4px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    color: #333;
 }
 
+/* Heading for the component */
 .manage-sessions-heading {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+/* Message when there are no hosted sessions */
+.no-sessions-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* List of hosted sessions */
 .session-list {
     list-style: none;
     padding: 0;
 }
 
+/* Individual session item */
 .session-item {
-    background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.session-details {
-    margin-bottom: 10px;
+/* Styling for session details */
+.session-detail {
+    font-size: 14px;
+    margin: 5px 0;
 }
 
+/* Actions section for edit and delete buttons */
 .session-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
 }
 
 .edit-button,
 .delete-button {
-    padding: 5px 10px;
-    background-color: #ff6347;
-    color: white;
+    display: inline-block;
+    padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.edit-button:hover,
-.delete-button:hover {
-    background-color: #ff4c12;
+/* Edit button styling */
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
 }
 
-.session-form {
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 4px;
+/* Delete button styling */
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    margin-left: 10px;
+    /* Add margin to create space between buttons */
 }
 
-.form-input {
+/* Edit session form */
+.edit-session-form {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* Form fields */
+.form-group {
     margin-bottom: 10px;
 }
 
+.form-control {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Save and cancel buttons */
 .save-button,
 .cancel-button {
-    padding: 5px 10px;
-    background-color: #4caf50;
-    color: white;
+    padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 5px;
+    font-size: 14px;
 }
 
-.save-button:hover,
-.cancel-button:hover {
-    background-color: #45a049;
+/* Save button styling */
+.save-button {
+    background-color: #28a745;
+    color: #fff;
 }
 
-/* Additional styling as needed */
+/* Cancel button styling */
+.cancel-button {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 480px) {
+    .manage-sessions-container {
+        padding: 10px;
+    }
+}

@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { getUserIdFromToken } from "../helpers";
 import { getUserProfile } from "../api";
 import Logout from "./Logout";
-import "../styles/Header.css"
-
+import "../styles/Header.css";
 
 const Header = () => {
   const loggedInUserId = getUserIdFromToken();
   const [loggedInUserProfile, setLoggedInUserProfile] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (loggedInUserId) {
@@ -23,12 +23,21 @@ const Header = () => {
     }
   }, [loggedInUserId]);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header className="header">
       <div className="logo">
         <Link to="/">GAME Realm</Link>
       </div>
-      <nav className="nav">
+      <div className="menu-toggle" onClick={toggleMenu}>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+      <nav className={`nav ${isMenuOpen ? "open" : ""}`}>
         <ul>
           <li>
             <Link to="/create-gaming-group">Create Group</Link>

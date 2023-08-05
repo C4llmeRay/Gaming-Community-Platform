@@ -1,28 +1,95 @@
 /* Header */
 .header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     background-color: #000000;
     color: white;
     padding: 10px 20px;
-    font-family:"Base 05", sans-serif;
+    font-family: "Base 05", sans-serif;
+}
 
+@media (min-width: 768px) {
+
+    /* Larger screens - revert to original flexbox layout */
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 /* Logo */
 .logo a {
-    font-size: 40px;
+    font-size: 24px;
     font-weight: bold;
     text-decoration: none;
     color: white;
-
 }
 
-/* Navigation */
+@media (min-width: 768px) {
+
+    /* Adjust logo font size for larger screens */
+    .logo a {
+        font-size: 32px;
+    }
+}
+
 .nav {
-    display: flex;
+    display: none;
+    margin-top: 10px;
 }
+
+.nav.open {
+    display: block;
+
+}
+
+@media (min-width: 768px) {
+
+    .nav {
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-top: 0;
+        display: block;
+
+    }
+
+    .nav.open {
+        position: static;
+
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.menu-toggle {
+    display: block;
+
+    /* Display the button by default */
+    @media (min-width: 768px) {
+        display: none;
+        /* Hide the button on larger screens */
+    }
+}
+
+.menu-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+}
+
 
 .nav a {
     margin-right: 20px;
@@ -38,7 +105,17 @@
 /* User Section */
 .user-section {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+
+    /* Larger screens - revert to original flexbox layout */
+    .user-section {
+        flex-direction: row;
+    }
 }
 
 /* Dropdown */
@@ -56,8 +133,8 @@
 }
 
 .user-infoo img {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     margin-right: 10px;
 }

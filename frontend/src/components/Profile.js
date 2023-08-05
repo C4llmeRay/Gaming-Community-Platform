@@ -140,7 +140,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="user-profile-container">
+    <div className="profile-container">
       <h2 className="profile-heading">User Profile</h2>
       {userProfile && !editMode ? (
         <div className="user-info">
