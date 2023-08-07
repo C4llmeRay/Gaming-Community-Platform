@@ -1,0 +1,76 @@
+/* Main container */
+.gaming-session-container {
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* List of gaming sessions */
+.gaming-session-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Individual gaming session item */
+.gaming-session-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Joined players */
+.joined-players {
+    margin-top: 10px;
+}
+
+/* Join button */
+.join-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.join-button:hover {
+    background-color: #0056b3;
+}
+
+/* Form */
+.create-session-form {
+    margin-top: 20px;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 10px;
+}
+
+/* Form input */
+.form-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Create session button */
+.create-session-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.create-session-button:hover {
+    background-color: #1f8433;
+}

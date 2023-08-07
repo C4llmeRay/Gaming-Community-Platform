@@ -1,0 +1,110 @@
+/* user-joined-sessions-container */
+.user-joined-sessions-container {
+    max-width: auto;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* user-joined-sessions-heading */
+.user-joined-sessions-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* no-sessions-message */
+.no-sessions-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* session-list */
+.session-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* session-item */
+.session-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* session-name */
+.session-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* hosted-by */
+.hosted-by {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #007bff;
+}
+
+/* host-username */
+.host-username {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* session-detail */
+.session-detail {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* joined-players */
+.joined-players {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* joined-player-username */
+.joined-player-username {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* leave-button */
+.leave-button {
+    padding: 8px 12px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* leave-button:hover */
+.leave-button:hover {
+    background-color: #950101;
+}
+
+/* Responsive styles */
+
+@media screen and (max-width: 768px) {
+
+    /* Adjust styles for smaller screens */
+    .user-joined-sessions-container {
+        padding: 10px;
+    }
+
+    .session-item {
+        padding: 10px;
+    }
+}

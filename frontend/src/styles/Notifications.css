@@ -1,0 +1,51 @@
+.notifications-container {
+    background-color: #f8f8f8;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.notifications-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* No notifications message */
+.no-notifications {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Notifications list */
+.notifications-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Notification item */
+.notification-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Notification link */
+.notification-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* View requests link */
+.view-requests-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+}

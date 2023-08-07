@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJoinedGamingSessions, getOtherUserProfile, leaveGamingSession } from "../api";
+import "../styles/UserJoinedSessions.css";
+
 
 const UserJoinedSessions = () => {
   const [joinedSessions, setJoinedSessions] = useState([]);
@@ -63,39 +65,52 @@ const UserJoinedSessions = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Joined Gaming Sessions</h2>
+    <div className="user-joined-sessions-container">
+      <h2 className="user-joined-sessions-heading">Joined Gaming Sessions</h2>
       {joinedSessions.length === 0 ? (
-        <p>No gaming sessions joined yet.</p>
+        <p className="no-sessions-message">No gaming sessions joined yet.</p>
       ) : (
-        <ul>
+        <ul className="session-list">
           {joinedSessions.map((session) => (
-            <li key={session._id}>
-              <p>{session.name}</p>
-              <p>
+            <li key={session._id} className="session-item">
+              <p className="session-name">{session.name}</p>
+              <p className="hosted-by">
                 Hosted by:{" "}
-                <Link to={`/profile/${session.host._id}`}>
+                <Link
+                  to={`/profile/${session.host._id}`}
+                  className="host-username"
+                >
                   {session.host.username}
                 </Link>
               </p>
-              <p>Game: {session.game}</p>
-              <p>Date: {new Date(session.date).toLocaleDateString()}</p>
-              <p>Time: {session.time}</p>
-              <p>Required Players: {session.requiredPlayers}</p>
-              <p>
+              <p className="session-detail">Game: {session.game}</p>
+              <p className="session-detail">
+                Date: {new Date(session.date).toLocaleDateString()}
+              </p>
+              <p className="session-detail">Time: {session.time}</p>
+              <p className="session-detail">
+                Required Players: {session.requiredPlayers}
+              </p>
+              <p className="joined-players">
                 Joined Players:{" "}
                 {session.joinedPlayersData.length === 0
                   ? "No players joined yet."
                   : session.joinedPlayersData.map((player) => (
                       <React.Fragment key={player._id}>
-                        <Link to={`/profile/${player._id}`}>
+                        <Link
+                          to={`/profile/${player._id}`}
+                          className="joined-player-username"
+                        >
                           {player.username}
                         </Link>
                         {", "}
                       </React.Fragment>
                     ))}
               </p>
-              <button onClick={() => handleLeaveSession(session._id)}>
+              <button
+                onClick={() => handleLeaveSession(session._id)}
+                className="leave-button"
+              >
                 Leave
               </button>
             </li>
@@ -105,5 +120,6 @@ const UserJoinedSessions = () => {
     </div>
   );
 };
+
 
 export default UserJoinedSessions;

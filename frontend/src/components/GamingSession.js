@@ -6,6 +6,8 @@ import {
   createGamingSession,
   joinGamingSession,
 } from "../api";
+import "../styles/GamingSession.css";
+
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -91,17 +93,16 @@ const GamingSession = () => {
   };
 
   return (
-    <div>
+    <div className="gaming-session-container">
       <h2>Gaming Sessions</h2>
-      {/* Display list of gaming sessions */}
-      <ul>
+      <ul className="gaming-session-list">
         {gamingSessions.map((session) => (
-          <li key={session._id}>
+          <li key={session._id} className="gaming-session-item">
             <p>Game: {session.game}</p>
             <p>Date: {formatDate(session.date)}</p>
             <p>Time: {formatTime(session.time)}</p>
             <p>Required Players: {session.requiredPlayers}</p>
-            <p>
+            <p className="joined-players">
               Joined Players:{" "}
               {session.joinedPlayersData.length === 0
                 ? "no players joined yet"
@@ -114,19 +115,20 @@ const GamingSession = () => {
                     </React.Fragment>
                   ))}
             </p>
-            {/* Join button */}
             {!session.joinedPlayers.includes(currentUserId) && (
-              <button onClick={() => handleJoinSession(session._id)}>
+              <button
+                onClick={() => handleJoinSession(session._id)}
+                className="join-button"
+              >
                 Join
               </button>
             )}
           </li>
         ))}
       </ul>
-      {/* Form to create a new gaming session */}
       <h2>Create New Gaming Session</h2>
-      <form onSubmit={handleCreateSession}>
-        <div>
+      <form onSubmit={handleCreateSession} className="create-session-form">
+        <div className="form-group">
           <label>Game:</label>
           <input
             type="text"
@@ -134,9 +136,10 @@ const GamingSession = () => {
             value={newSessionData.game}
             onChange={handleInputChange}
             required
+            className="form-input"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Date:</label>
           <input
             type="date"
@@ -144,9 +147,10 @@ const GamingSession = () => {
             value={newSessionData.date}
             onChange={handleInputChange}
             required
+            className="form-input"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Time:</label>
           <input
             type="time"
@@ -154,9 +158,10 @@ const GamingSession = () => {
             value={newSessionData.time}
             onChange={handleInputChange}
             required
+            className="form-input"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Required Players:</label>
           <input
             type="number"
@@ -164,9 +169,12 @@ const GamingSession = () => {
             value={newSessionData.requiredPlayers}
             onChange={handleInputChange}
             required
+            className="form-input"
           />
         </div>
-        <button type="submit">Create Session</button>
+        <button type="submit" className="create-session-button">
+          Create Session
+        </button>
       </form>
     </div>
   );

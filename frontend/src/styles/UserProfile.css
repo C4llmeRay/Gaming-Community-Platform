@@ -35,7 +35,7 @@
 .unfollow-button,
 .send-friend-request-button,
 .send-message-button,
-.unfriend-button {
+.unfriendd-button {
     background-color: #ff0000;
     color: white;
     border: none;
@@ -51,7 +51,7 @@
 .unfollow-button:hover,
 .send-friend-request-button:hover,
 .send-message-button:hover,
-.unfriend-button:hover {
+.unfriendd-button:hover {
     background-color: #3d0000;
     transform: scale(1.05);
 }

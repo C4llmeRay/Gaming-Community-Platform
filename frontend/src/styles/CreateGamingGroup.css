@@ -1,0 +1,61 @@
+/* Main container */
+.create-group-container {
+    background-color: #f8f8f8;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.create-group-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Label */
+.create-group-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Input */
+.create-group-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Textarea */
+.create-group-textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Select */
+.create-group-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Button */
+.create-group-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.create-group-button:hover {
+    background-color: #0056b3;
+}

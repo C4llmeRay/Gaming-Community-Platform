@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import { getNotifications } from "../api";
+import "../styles/Notifications.css";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -48,31 +49,40 @@ const Notifications = () => {
   );
 
   return (
-    <div>
-      <h2>Notifications</h2>
+    <div className="notifications-container">
+      <h2 className="notifications-heading">Notifications</h2>
       {notifications.length === 0 ? (
-        <p>No new notifications.</p>
+        <p className="no-notifications">No new notifications.</p>
       ) : (
-        <ul>
+        <ul className="notifications-list">
           {notifications.map((notification) => (
-            <li key={notification._id}>
+            <li key={notification._id} className="notification-item">
               {notification.type === "follow" ? (
                 <>
                   You have a new follower:{" "}
-                  <Link to={`/profile/${notification.data.followerData._id}`}>
+                  <Link
+                    to={`/profile/${notification.data.followerData._id}`}
+                    className="notification-link"
+                  >
                     {notification.data.followerData.username}
                   </Link>
                 </>
               ) : notification.type === "friend_request" ? (
                 <>
                   You have a new friend request from:{" "}
-                  <Link to={`/profile/${notification.data.senderId}`}>
+                  <Link
+                    to={`/profile/${notification.data.senderId}`}
+                    className="notification-link"
+                  >
                     {notification.data.senderUsername}
                   </Link>
                 </>
               ) : notification.type === "friend_request_accepted" ? (
                 <>
-                  <Link to={`/profile/${notification.data.senderId}`}>
+                  <Link
+                    to={`/profile/${notification.data.senderId}`}
+                    className="notification-link"
+                  >
                     {notification.data.senderUsername}
                   </Link>{" "}
                   accepted your friend request.
@@ -82,7 +92,9 @@ const Notifications = () => {
           ))}
         </ul>
       )}
-      <Link to="/friendRequests">View Friend Requests</Link>
+      <Link to="/friendRequests" className="view-requests-link">
+        View Friend Requests
+      </Link>
     </div>
   );
 };

@@ -125,7 +125,7 @@ const UserProfile = () => {
       )}
       {isCurrentUserFriend ? (
         <button
-          className="unfriend-button"
+          className="unfriendd-button"
           onClick={() => handleUnfriendUser(userId)}
         >
           Unfriend

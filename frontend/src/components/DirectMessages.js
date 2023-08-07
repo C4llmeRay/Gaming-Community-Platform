@@ -126,7 +126,6 @@ const DirectMessages = ({ userId }) => {
   return (
     <div className="direct-messages-container">
       <h2>Direct Messages</h2>
-      <p>User ID: {userId}</p>
       <div className="chat-messages">
         <h3>Direct Chat Messages:</h3>
         {Array.isArray(conversationMessages) &&
@@ -158,7 +157,7 @@ const DirectMessages = ({ userId }) => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <button className="send-button" onClick={handleSendMessage}>
-          Send Direct Message
+          Send Message
         </button>
       </div>
     </div>

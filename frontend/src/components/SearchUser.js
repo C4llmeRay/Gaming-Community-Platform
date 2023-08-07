@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { searchFriends } from "../api";
 import { Link } from "react-router-dom";
+import "../styles/SearchUser.css";
+
 
 const SearchUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,24 +22,38 @@ const SearchUser = () => {
   };
 
   return (
-    <div>
-      <h2>Search Friends</h2>
-      <input
-        type="text"
-        placeholder="Search friends"
-        value={searchQuery}
-        onChange={handleInputChange}
-      />
-      <button onClick={handleSearch}>Search</button>
+    <div className="search-user-container">
+      <h2 className="search-user-heading">Search Friends</h2>
+      <div className="search-input">
+        <input
+          type="text"
+          placeholder="Search friends"
+          value={searchQuery}
+          onChange={handleInputChange}
+        />
+        <button className="search-button" onClick={handleSearch}>
+          Search
+        </button>
+      </div>
 
-      {searchResults.map((friend) => (
-        <div key={friend._id}>
-          <Link to={`/profile/${friend._id}`}>
-            <img src={friend.avatar} alt={friend.username} />
-            <span>{friend.username}</span>
+      <div className="search-results">
+        {searchResults.map((friend) => (
+          <Link
+            key={friend._id}
+            to={`/profile/${friend._id}`}
+            className="friend-link"
+          >
+            <div className="friend">
+              <img
+                src={friend.avatar}
+                alt={friend.username}
+                className="friend-avatar"
+              />
+              <span className="friend-username">{friend.username}</span>
+            </div>
           </Link>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

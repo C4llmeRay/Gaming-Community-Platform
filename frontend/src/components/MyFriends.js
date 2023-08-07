@@ -2,20 +2,21 @@ import React, { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { getUserProfile, unfriendUser } from '../api';
+import '../styles/MyFriends.css'
 
 const MyFriends = () => {
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null); 
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwt_decode(token);
       const currentUserId = decodedToken.userId;
-      console.log('Current User ID:', currentUserId);
-      setCurrentUserId(currentUserId); 
+      console.log("Current User ID:", currentUserId);
+      setCurrentUserId(currentUserId);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const fetchCurrentUserProfile = async () => {
@@ -23,7 +24,7 @@ const MyFriends = () => {
         const response = await getUserProfile();
         setCurrentUserProfile(response);
       } catch (error) {
-        console.error('Error fetching current user profile:', error);
+        console.error("Error fetching current user profile:", error);
       }
     };
 
@@ -34,38 +35,47 @@ const MyFriends = () => {
   }, [currentUserId]);
 
   const handleUnfriend = async (friendId) => {
-  const confirmation = window.confirm('Are you sure you want to unfriend this user?');
-  if (confirmation) {
-    try {
-      await unfriendUser(friendId);
-      // Remove the unfriended friend from the local state
-      setCurrentUserProfile((prevProfile) => ({
-        ...prevProfile,
-        friends: prevProfile.friends.filter((friend) => friend.userId !== friendId),
-      }));
-    } catch (error) {
-      console.error('Error unfriending user:', error);
+    const confirmation = window.confirm(
+      "Are you sure you want to unfriend this user?"
+    );
+    if (confirmation) {
+      try {
+        await unfriendUser(friendId);
+        // Remove the unfriended friend from the local state
+        setCurrentUserProfile((prevProfile) => ({
+          ...prevProfile,
+          friends: prevProfile.friends.filter(
+            (friend) => friend.userId !== friendId
+          ),
+        }));
+      } catch (error) {
+        console.error("Error unfriending user:", error);
+      }
     }
-  }
-};
+  };
 
   if (!currentUserProfile) {
     return <div>Loading...</div>;
   }
 
-
-
   return (
-    <div>
-      <h2>My Friends</h2>
+    <div className="my-friends-container">
+      <h2 className="my-friends-heading">My Friends</h2>
       {currentUserProfile.friends.length === 0 ? (
-        <p>You have no friends yet.</p>
+        <p className="no-friends-message">You have no friends yet.</p>
       ) : (
-        <ul>
+        <ul className="friends-list">
           {currentUserProfile.friends.map((friend) => (
-            <li key={friend.userId}>
-              <Link to={`/profile/${friend.userId}`}>{friend.username}</Link>
-              <button onClick={() => handleUnfriend(friend.userId)}>Unfriend</button>
+            <li key={friend.userId} className="friend-item">
+              <Link to={`/profile/${friend.userId}`} className="friend-link">
+                {friend.username}
+              </Link>
+              <button
+                onClick={() => handleUnfriend(friend.userId)}
+                className="unfriend-button"
+              >
+                Unfriend
+              </button>
             </li>
           ))}
         </ul>
