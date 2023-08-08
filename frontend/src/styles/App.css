@@ -1,0 +1,41 @@
+body,
+html,
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Set the overall layout */
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Main content area */
+main {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+
+}
+
+/* Add a class to center align and size the main content */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}

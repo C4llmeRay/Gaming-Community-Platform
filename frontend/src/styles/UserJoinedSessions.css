@@ -1,5 +1,7 @@
 /* user-joined-sessions-container */
 .user-joined-sessions-container {
+    width: 100%;
+    height: 95%;
     max-width: auto;
     margin: 0 auto;
     padding: 20px;

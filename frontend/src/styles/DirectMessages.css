@@ -1,5 +1,7 @@
 /* Main container */
 .direct-messages-container {
+    width: 90%;
+    max-width: auto;
     background-color: #f4f4f4;
     color: #333;
     padding: 20px;

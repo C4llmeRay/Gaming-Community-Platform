@@ -1,5 +1,8 @@
 /* FriendRequests.css */
 .friend-requests-container {
+    width: 100%;
+    height: 95%;
+    max-width: auto;
     background-color: #ffffff;
     color: #950101;
     padding: 20px;

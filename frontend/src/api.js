@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getUserIdFromToken } from "./helpers";
 
 // The base URL for the backend API
 const baseURL = "http://localhost:5000";
@@ -611,9 +612,13 @@ const getConversationMessages = async (conversationId) => {
   }
 };
 
-// Function to get all conversations for a specific user
-const getAllConversations = async (userId) => {
+// Function to get all conversations for the logged-in user
+const getAllConversations = async () => {
   try {
+    const userId = getUserIdFromToken();
+    if (!userId) {
+      throw new Error('User ID not found in token');
+    }
     const response = await axios.get(`${baseURL}/directChatMessages/user/${userId}`);
     return response.data;
   } catch (error) {

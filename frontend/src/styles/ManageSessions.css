@@ -1,6 +1,7 @@
 /* Container for the entire component */
 .manage-sessions-container {
-    width: auto;
+    width: 100%;
+    height: 95%;
     max-width: auto;
     margin: 0 auto;
     padding: 20px;

@@ -1,4 +1,7 @@
 .search-groups-container {
+    width: 100%;
+    height: 95%;
+    max-width: auto;
     background-color: #f4f4f4;
     color: #333;
     padding: 20px;

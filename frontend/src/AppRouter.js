@@ -16,12 +16,14 @@ import SearchUser from './components/SearchUser';
 import SearchGroups from './components/SearchGroups';
 import UserJoinedSessions from './components/UserJoinedSessions';
 import Notifications from './components/Notifications';
+import Home from "./components/Home";
 
 
 
 const AppRouter = () => {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />

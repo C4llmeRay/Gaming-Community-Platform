@@ -1,6 +1,8 @@
 
 .my-friends-container {
-    max-width: 100%;
+    width: 100%;
+    height: 95%;
+    max-width: auto;
     margin: 0 auto;
     padding: 20px;
     background-color: #f4f4f4;
@@ -52,7 +54,7 @@
 
 /* friend-link:hover */
 .friend-link:hover {
-    color: #007bff;
+    color: #ac2730;
 }
 
 /* unfriend-button */

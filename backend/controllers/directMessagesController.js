@@ -23,6 +23,7 @@ const getAllConversations = async (req, res) => {
   try {
     const userId = req.user._id;
     const conversations = await Conversation.find({ participants: userId });
+    console.log("User id:", userId);
     res.status(200).json({ conversations });
   } catch (error) {
     console.error("Error fetching conversations:", error);
@@ -34,7 +35,7 @@ const getOrCreateConversation = async (req, res) => {
   try {
     const user1 = req.user._id;
     const user2 = req.params.userId;
-    console.log("U1", user1)
+    console.log("U1", user1);
     console.log("U2", user2);
 
     const existingConversation = await Conversation.findOne({
@@ -64,7 +65,7 @@ const sendDirectMessage = async (req, res) => {
   try {
     const { text, receiver } = req.body;
     const sender = req.user._id;
-    const conversationId = req.params.conversationId; 
+    const conversationId = req.params.conversationId;
     console.log("content:", text);
     console.log("receiver:", receiver);
     console.log("sender:", sender);
