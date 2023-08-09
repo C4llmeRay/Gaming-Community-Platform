@@ -1,12 +1,38 @@
 /* Header */
 .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #000000;
-    color: white;
-    padding: 10px 20px;
-    font-family: "Base 05", sans-serif;
+  display: flex;
+  justify-content: space-between; /* Align items horizontally */
+  align-items: center;
+  background-color: #000000;
+  color: white;
+  padding: 10px 20px;
+  font-family: "Base 05", sans-serif;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex; 
+  align-items: center; 
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav li {
+  margin-right: 20px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center; 
 }
 
 @media (min-width: 768px) {
@@ -27,8 +53,6 @@
 }
 
 @media (min-width: 768px) {
-
-    /* Adjust logo font size for larger screens */
     .logo a {
         font-size: 32px;
     }
@@ -44,6 +68,19 @@
 
 }
 
+.logout-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s ease-in-out, text-decoration 0.3s ease-in-out;
+}
+
+.logout-button:hover {
+    color: #3d0000;
+    text-decoration: underline;
+}
+
 @media (min-width: 768px) {
 
     .nav {
@@ -56,7 +93,6 @@
 
     .nav.open {
         position: static;
-
         display: flex;
         justify-content: flex-end;
     }
@@ -189,3 +225,46 @@
 .login-button:hover {
     color: #3d0000;
 }
+
+@media (max-width: 768px) {
+    .nav {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background-color: #000000;
+        border: 1px solid white;
+        border-radius: 5px;
+        text-align: right;
+        padding: 10px;
+        display: none;
+        z-index: 1;
+    }
+
+    .nav.open {
+        display: block;
+        /* Display the navigation menu when open */
+    }
+
+    /* Align the links vertically when the navigation menu is open */
+    .nav.open ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        margin-right: 20px;
+    }
+}
+

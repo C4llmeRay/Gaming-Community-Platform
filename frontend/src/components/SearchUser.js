@@ -24,12 +24,13 @@ const SearchUser = () => {
   return (
     <div className="search-user-container">
       <h2 className="search-user-heading">Search Friends</h2>
-      <div className="search-input">
+      <div className="search-input-container">
         <input
           type="text"
           placeholder="Search friends"
           value={searchQuery}
           onChange={handleInputChange}
+          className="search-input"
         />
         <button className="search-button" onClick={handleSearch}>
           Search

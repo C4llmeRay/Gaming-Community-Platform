@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Logout = () => {
   const handleLogout = () => {
@@ -11,7 +10,7 @@ const Logout = () => {
   };
 
   return (
-    <div className="logout" onClick={handleLogout}>
+    <div className="logout-button" onClick={handleLogout}>
       <i className="fas fa-sign-out-alt"></i> Logout
     </div>
   );

@@ -23,12 +23,13 @@ const SearchGroups = () => {
   return (
     <div className="search-groups-container">
       <h2 className="search-groups-heading">Search Groups</h2>
-      <div className="search-input">
+      <div className="search-input-container">
         <input
           type="text"
           placeholder="Search groups"
           value={searchQuery}
           onChange={handleInputChange}
+          className="search-input"
         />
         <button className="search-button" onClick={handleSearch}>
           Search

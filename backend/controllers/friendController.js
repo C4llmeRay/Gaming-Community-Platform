@@ -8,29 +8,24 @@ const sendFriendRequest = async (req, res) => {
   try {
     const { userId } = req.params;
     const currentUser = req.user;
-
     // Check if the user is trying to send a friend request to themselves
     if (currentUser._id.equals(userId)) {
       return res
         .status(400)
         .json({ message: "You cannot send a friend request to yourself" });
     }
-
     // Check if the target user is already in the current user's friends list
     if (currentUser.friends.some((friend) => friend.userId.equals(userId))) {
       return res
         .status(400)
         .json({ message: "You are already friends with this user" });
     }
-
     // Check if the target user already has a pending friend request from the current user
     const targetUser = await User.findById(userId);
-
     // Filter out null elements from targetUser.friendRequests
     const filteredFriendRequests = targetUser.friendRequests.filter(
       (request) => request && request.sender.userId
     );
-
     if (
       filteredFriendRequests.some((request) =>
         request.sender.userId.equals(currentUser._id)
@@ -38,16 +33,15 @@ const sendFriendRequest = async (req, res) => {
     ) {
       return res.status(400).json({ message: "Friend request already sent" });
     }
-
     // Generate a unique ID for the friend request
     const requestId = new mongoose.Types.ObjectId();
-
     // Update the target user's friend requests list and add the current user
     targetUser.friendRequests.push({
       requestId,
       sender: {
         userId: currentUser._id,
         username: currentUser.username,
+        avatar: currentUser.avatar,
         friends: [],
       },
     });
@@ -58,7 +52,7 @@ const sendFriendRequest = async (req, res) => {
       recipient: userId,
       type: "friend_request",
       data: {
-        requestId, // Use the defined requestId here
+        requestId, 
         senderId: currentUser._id,
         senderUsername: currentUser.username,
       },
@@ -72,25 +66,29 @@ const sendFriendRequest = async (req, res) => {
   }
 };
 
-
-
-
 const getFriendRequests = async (req, res) => {
   try {
     const currentUser = req.user;
-    const friendRequests = await User.find({
-      _id: { $in: currentUser.friendRequests },
-    })
-      .select("_id")
-      .populate("friendRequests", "username");
+
+    // Use the populate method on the currentUser model directly
+    await currentUser
+      .populate({
+        path: "friendRequests.sender",
+        select: "username avatar", // Select the desired fields
+      })
+      .execPopulate();
+
+    // Extract the friendRequests array from the populated field
+    const friendRequests = currentUser.friendRequests;
 
     console.log("Friend Requests:", friendRequests);
 
     const friendRequestsData = friendRequests.map((request) => ({
-      requestId: request._id,
+      requestId: request._id, // Use request._id instead of request.friendRequests._id
       sender: {
-        userId: request.friendRequests._id,
-        username: request.friendRequests.username,
+        userId: request.sender._id, // Use request.sender._id
+        username: request.sender.username,
+        avatar: request.sender.avatar,
       },
     }));
     res.json(friendRequestsData);
@@ -99,6 +97,7 @@ const getFriendRequests = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 // Accept a friend request
 const acceptFriendRequest = async (req, res) => {

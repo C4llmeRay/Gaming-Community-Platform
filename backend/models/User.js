@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema(
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         username: { type: String },
+        avatar: { type: String },
       },
     ],
     friendRequests: [
@@ -34,6 +35,7 @@ const userSchema = new mongoose.Schema(
               ref: "User",
             },
           ],
+          avatar: { type: String },
         },
       },
     ],

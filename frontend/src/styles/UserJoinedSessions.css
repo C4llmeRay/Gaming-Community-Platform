@@ -1,112 +1,142 @@
-/* user-joined-sessions-container */
 .user-joined-sessions-container {
     width: 100%;
-    height: 95%;
     max-width: auto;
-    margin: 0 auto;
-    padding: 20px;
     background-color: #f4f4f4;
-    border: 1px solid #ddd;
+    color: #333;
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
 }
 
-/* user-joined-sessions-heading */
+/* Heading */
 .user-joined-sessions-heading {
     font-size: 24px;
     margin-bottom: 20px;
-    text-align: center;
 }
 
-/* no-sessions-message */
+/* No sessions message */
 .no-sessions-message {
     font-size: 16px;
-    margin-bottom: 20px;
     text-align: center;
 }
 
-/* session-list */
-.session-list {
-    list-style: none;
-    padding: 0;
-}
-
-/* session-item */
-.session-item {
+/* Session card */
+.session-card {
+    padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
-/* session-name */
-.session-name {
-    font-size: 18px;
-    font-weight: bold;
+/* Host info */
+.host-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-/* hosted-by */
-.hosted-by {
-    font-size: 14px;
-    margin-top: 5px;
-    color: #007bff;
-}
-
-/* host-username */
 .host-username {
+    color: #3d0000;
     text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
 }
 
-/* session-detail */
+.host-username span {
+    margin-left: 1px;
+}
+
+/* Avatar */
+.avatarr {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 2rem;
+}
+
+/* Session detail */
 .session-detail {
     font-size: 14px;
-    margin: 5px 0;
+    margin-bottom: 5px;
 }
 
-/* joined-players */
+/* Joined players */
 .joined-players {
     font-size: 14px;
-    margin: 5px 0;
+    margin-top: 15px;
 }
 
-/* joined-player-username */
-.joined-player-username {
+/* Player list */
+.player-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Joined player */
+.joined-player {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+    margin-bottom: 10px;
     text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
+    color: #3d0000;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* leave-button */
+.joined-player img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 2rem;
+}
+
+.joined-player span {
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.joined-player:hover {
+    transform: translateY(-3px);
+    opacity: 0.8;
+}
+
+/* Leave button */
 .leave-button {
-    padding: 8px 12px;
-    background-color: #dc3545;
-    color: #fff;
+    background-color: #e74c3c;
+    color: white;
     border: none;
     border-radius: 4px;
+    padding: 8px 16px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease-in-out;
 }
 
-/* leave-button:hover */
 .leave-button:hover {
-    background-color: #950101;
+    background-color: #c0392b;
 }
 
-/* Responsive styles */
-
 @media screen and (max-width: 768px) {
-
-    /* Adjust styles for smaller screens */
-    .user-joined-sessions-container {
-        padding: 10px;
+    .session-card {
+        padding: 15px;
     }
 
-    .session-item {
-        padding: 10px;
+    .avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .host-username span,
+    .joined-player span {
+        font-size: 14px;
+    }
+
+    .leave-button {
+        font-size: 12px;
+        padding: 6px 12px;
     }
 }
