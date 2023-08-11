@@ -74,9 +74,6 @@ exports.leaveGroup = async (req, res) => {
   try {
     const group = req.group;
     const user = req.user;
-    console.log(group, 'aaaaaa')
-    console.log(user._id, "bbbbbbbb");
-
 
     // Check if the user is a member of the group
     if (!group.members.includes(user._id)) {
@@ -85,11 +82,24 @@ exports.leaveGroup = async (req, res) => {
         .json({ message: "You are not a member of this group" });
     }
 
-    // Remove the user from the group's members array
-    group.members = group.members.filter((memberId) => memberId !== user._id);
-    await group.save();
+    // Create a new members array without the user's ID
+    const updatedMembers = group.members.filter(
+      (memberId) => memberId.toString() !== user._id.toString()
+    );
 
-    res.json({ message: "You have left the group successfully" });
+    // Update the group's members with the new array
+    group.members = updatedMembers;
+
+    try {
+      // Save the updated group
+      const updatedGroup = await group.save();
+      console.log("Updated Group after saving:", updatedGroup);
+
+      res.json({ message: "You have left the group successfully" });
+    } catch (saveError) {
+      console.error("Error saving updated group:", saveError);
+      res.status(500).json({ message: "Failed to leave the group" });
+    }
   } catch (error) {
     res.status(500).json({ message: "Failed to leave the group" });
   }

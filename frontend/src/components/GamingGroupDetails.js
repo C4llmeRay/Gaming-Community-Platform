@@ -142,19 +142,19 @@ const GamingGroupDetails = () => {
   };
 
   const handleJoinOrLeaveGroup = async () => {
-    try {
-      if (isMember) {
-        await leaveGroup(groupId);
-      } else {
-        await joinGroup(groupId);
-      }
-
-      const updatedGroupDetails = await getGroupDetails(groupId);
-      setGroupDetails(updatedGroupDetails);
-    } catch (error) {
-      console.error("Error joining or leaving group:", error);
+  try {
+    if (isMember) {
+      await leaveGroup(groupId);
+    } else {
+      await joinGroup(groupId);
     }
-  };
+
+    const updatedGroupDetails = await getGroupDetails(groupId);
+    setGroupDetails(updatedGroupDetails);
+  } catch (error) {
+    console.error("Error joining or leaving group:", error);
+  }
+};
 
   const handleDeleteMessage = async (messageId) => {
     try {
@@ -230,7 +230,6 @@ const GamingGroupDetails = () => {
           </button>
         </div>
       )}
-
       <ul className="member-list mt-4">
         {groupDetails.members.map((member) => (
           <li key={member._id} className="list-group-item">

@@ -64,7 +64,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    /* Adjust as needed */
 }
 
 .join-leave-button,
@@ -86,11 +85,13 @@
 .join-leave-button {
     background-color: #007bff;
     color: white;
+    margin-bottom: 1rem;
 }
 
 .transfer-button {
     background-color: #00cc66;
     color: white;
+    display: none;
 }
 
 .kick-button,
