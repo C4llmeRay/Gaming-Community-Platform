@@ -74,6 +74,9 @@ exports.leaveGroup = async (req, res) => {
   try {
     const group = req.group;
     const user = req.user;
+    console.log(group, 'aaaaaa')
+    console.log(user._id, "bbbbbbbb");
+
 
     // Check if the user is a member of the group
     if (!group.members.includes(user._id)) {

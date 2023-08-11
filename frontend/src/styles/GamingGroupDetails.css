@@ -1,195 +1,209 @@
-.container {
+/* Styling for GamingGroupDetails component */
+.gaming-group-details-container {
     width: 100%;
-    height: 95%;
     max-width: auto;
+    margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
+    color: #333;
 }
 
-.group-details-heading {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #950101;
-}
-
-.group-info {
-    font-size: 16px;
+.gaming-group-details-title {
+    font-size: 24px;
     margin-bottom: 20px;
     color: #3d0000;
 }
 
-.group-info p {
-    margin: 10px 0;
+.group-info-item {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.list-group {
+.member-list {
     list-style: none;
     padding: 0;
-    margin: 10px 0;
+    margin: 0;
 }
 
 .list-group-item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
     padding: 10px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 5px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
-.member-link {
-    color: #3d0000;
+.member-info {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.member-info a {
     text-decoration: none;
+    color: inherit;
+}
+.member-link {
+    text-decoration: none;
+    color: #3d0000;
     font-weight: bold;
+}
+.member-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Adjust as needed */
 }
 
 .join-leave-button,
-.transfer-ownership {
+.transfer-button,
+.kick-button,
+.promote-button,
+.demote-button,
+.delete-button,
+.send-message-button {
+    padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-top: 10px;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.join-leave-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.transfer-button {
+    background-color: #00cc66;
+    color: white;
+}
+
+.kick-button,
+.delete-button {
+    background-color: #ff6347;
+    color: white;
+}
+
+.promote-button,
+.demote-button {
+    background-color: #ffa500;
+    color: white;
+}
+
+.send-message-button {
     background-color: #3d0000;
     color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
 }
 
-.join-leave-button:hover,
-.transfer-ownership:hover {
-    background-color: #950101;
+.send-message-button:hover {
+    background-color: #7d0000;
 }
+
+
 
 .chat-container {
-    background-color: white;
+    margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f4;
 }
 
 .chat-heading {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 18px;
+    margin-bottom: 10px;
     color: #3d0000;
 }
 
 .message-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .message-item {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .message-content {
-    padding: 15px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    position: relative;
+    font-size: 14px;
 }
 
 .message-sender {
-    color: #3d0000;
     font-weight: bold;
 }
 
 .message-timestamp {
-    color: #666;
     font-size: 12px;
+    color: #777;
 }
 
-.delete-button {
-    background-color: #3d0000;
-    color: white;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-left: 10px;
+.no-messages {
+    font-size: 14px;
+    color: #777;
 }
 
-.delete-button:hover {
-    background-color: #950101;
-}
-
-.chat-input {
+.input-message {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 4px;
     margin-top: 10px;
+    font-size: 14px;
 }
 
-.send-button {
-    background-color: #3d0000;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-top: 10px;
-}
+@media screen and (max-width: 768px) {
 
-.send-button:hover {
-    background-color: #950101;
-}
+    /* Adjust styles for smaller screens */
+    .gaming-group-details-container {
+        padding: 15px;
+    }
 
-.group-details-heading {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #950101;
-}
+    .join-leave-button,
+    .transfer-button,
+    .kick-button,
+    .promote-button,
+    .demote-button,
+    .delete-button,
+    .send-message-button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
 
-.button {
-    background-color: #3d0000;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
+    .member-avatar {
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+    }
 
-.button:hover {
-    background-color: #950101;
-}
+    .message-content {
+        font-size: 12px;
+    }
 
-.transfer-ownership {
-    background-color: #3d0000;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-top: 10px;
-}
+    .message-sender {
+        font-weight: normal;
+    }
 
-.transfer-ownership:hover {
-    background-color: #950101;
-}
+    .message-timestamp {
+        font-size: 10px;
+    }
 
-.chat-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-.send-button {
-    background-color: #3d0000;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-top: 10px;
-}
-
-.send-button:hover {
-    background-color: #950101;
+    .input-message {
+        font-size: 12px;
+    }
 }

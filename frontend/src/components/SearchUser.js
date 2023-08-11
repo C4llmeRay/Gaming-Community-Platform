@@ -3,7 +3,6 @@ import { searchFriends } from "../api";
 import { Link } from "react-router-dom";
 import "../styles/SearchUser.css";
 
-
 const SearchUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -22,8 +21,8 @@ const SearchUser = () => {
   };
 
   return (
-    <div className="search-user-container">
-      <h2 className="search-user-heading">Search Friends</h2>
+    <div className="search-user-component">
+      <h2 className="search-user-title">Search Friends</h2>
       <div className="search-input-container">
         <input
           type="text"
@@ -42,9 +41,9 @@ const SearchUser = () => {
           <Link
             key={friend._id}
             to={`/profile/${friend._id}`}
-            className="friend-link"
+            className="friend-result-link"
           >
-            <div className="friend">
+            <div className="friend-result">
               <img
                 src={friend.avatar}
                 alt={friend.username}

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
-import { Link } from 'react-router-dom';
-import { getUserProfile, unfriendUser } from '../api';
-import '../styles/MyFriends.css'
+import React, { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { Link } from "react-router-dom";
+import { getUserProfile, unfriendUser } from "../api";
+import "../styles/MyFriends.css";
 
 const MyFriends = () => {
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
@@ -13,7 +13,6 @@ const MyFriends = () => {
     if (token) {
       const decodedToken = jwt_decode(token);
       const currentUserId = decodedToken.userId;
-      console.log("Current User ID:", currentUserId);
       setCurrentUserId(currentUserId);
     }
   }, []);
@@ -55,12 +54,12 @@ const MyFriends = () => {
   };
 
   if (!currentUserProfile) {
-    return <div>Loading...</div>;
+    return <div className="loading-message">Loading...</div>;
   }
 
   return (
-    <div className="my-friends-container">
-      <h2 className="my-friends-heading">My Friends</h2>
+    <div className="my-friends-component">
+      <h2 className="my-friends-title">My Friends</h2>
       {currentUserProfile.friends.length === 0 ? (
         <p className="no-friends-message">You have no friends yet.</p>
       ) : (
@@ -68,7 +67,12 @@ const MyFriends = () => {
           {currentUserProfile.friends.map((friend) => (
             <li key={friend.userId} className="friend-item">
               <Link to={`/profile/${friend.userId}`} className="friend-link">
-                {friend.username}
+                <img
+                  src={friend.avatar}
+                  alt={`${friend.username}'s avatar`}
+                  className="friend-avatar"
+                />
+                <span className="friend-username">{friend.username}</span>
               </Link>
               <button
                 onClick={() => handleUnfriend(friend.userId)}

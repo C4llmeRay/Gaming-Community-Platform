@@ -2,8 +2,6 @@ const User = require("../models/User");
 const mongoose = require('mongoose');
 const Notification = require("../models/Notification");
 
-
-
 const sendFriendRequest = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -97,8 +95,6 @@ const getFriendRequests = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
 // Accept a friend request
 const acceptFriendRequest = async (req, res) => {
   try {
@@ -115,7 +111,7 @@ const acceptFriendRequest = async (req, res) => {
     }
 
     const sender = await User.findById(friendRequest.sender.userId).select(
-      "username friends"
+      "username friends avatar" 
     );
 
     if (!sender) {
@@ -131,12 +127,14 @@ const acceptFriendRequest = async (req, res) => {
     currentUser.friends.push({
       userId: friendRequest.sender.userId,
       username: friendRequest.sender.username,
+      avatar: sender.avatar, 
     });
 
     // Add the current user to the sender's friends
     sender.friends.push({
       userId: currentUser._id,
       username: currentUser.username,
+      avatar: currentUser.avatar, 
     });
 
     await Promise.all([currentUser.save(), sender.save()]);
@@ -159,11 +157,6 @@ const acceptFriendRequest = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
-
-
-
 // Reject a friend request
 const rejectFriendRequest = async (req, res) => {
   try {
@@ -250,12 +243,6 @@ const getUserFriends = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
-
-
-
-
 
 module.exports = {
   sendFriendRequest,

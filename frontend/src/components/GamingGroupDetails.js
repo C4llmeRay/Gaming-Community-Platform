@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import {Link, useParams } from 'react-router-dom';
-import { getGroupDetails, getUserProfile, leaveGroup, kickMember, promoteMember, demoteMember, transferOwnership, joinGroup, sendChatMessage, deleteChatMessage } from '../api';
-import { io } from 'socket.io-client';
-import '../styles/GamingGroupDetails.css'
-
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import {
+  getGroupDetails,
+  getUserProfile,
+  leaveGroup,
+  kickMember,
+  promoteMember,
+  demoteMember,
+  transferOwnership,
+  joinGroup,
+  sendChatMessage,
+  deleteChatMessage,
+} from "../api";
+import { io } from "socket.io-client";
+import "../styles/GamingGroupDetails.css";
 
 const GamingGroupDetails = () => {
   const { groupId } = useParams();
@@ -180,68 +190,86 @@ const GamingGroupDetails = () => {
   );
 
   return (
-    <div className="container">
-      <h2 className="mb-4 text-danger">Gaming Group Details</h2>
+    <div className="gaming-group-details-container">
+      <h2 className="gaming-group-details-title">Gaming Group Details</h2>
       <div className="group-info">
-        <p className="mb-2">Name: {groupDetails.name}</p>
-        <p className="mb-2">Description: {groupDetails.description}</p>
-        <p className="mb-2">Rules: {groupDetails.rules}</p>
-        <p className="mb-2">Privacy: {groupDetails.privacy}</p>
-        <p className="mb-2">Members:</p>
-        <ul className="list-group mb-4">
+        <p className="group-info-item">Name: {groupDetails.name}</p>
+        <p className="group-info-item">
+          Description: {groupDetails.description}
+        </p>
+        <p className="group-info-item">Rules: {groupDetails.rules}</p>
+        <p className="group-info-item">Privacy: {groupDetails.privacy}</p>
+        <p className="group-info-item">Members:</p>
+        <ul className="member-list">
           {groupDetails.members.map((member) => (
             <li key={member._id} className="list-group-item">
-              <Link to={`/profile/${member._id}`}>{member.username}</Link>{" "}
+              <div className="member-info">
+                <img
+                  src={member.avatar}
+                  alt={`${member.username}'s avatar`}
+                  className="member-avatar"
+                />
+                <Link to={`/profile/${member._id}`} className="member-link">
+                  {member.username}
+                </Link>
+              </div>
               (Member)
               {groupDetails.owner === member._id && " - Owner"}
               {member.isModerator && " - Moderator"}
             </li>
           ))}
         </ul>
-        <button className="button" onClick={handleJoinOrLeaveGroup}>
+        <button className="join-leave-button" onClick={handleJoinOrLeaveGroup}>
           {isMember ? "Leave Group" : "Join Group"}
         </button>
       </div>
       {groupDetails.owner === currentUser._id && (
-        <div className="mt-4">
-          <button className="button" onClick={handleTransferOwnership}>
+        <div className="ownership-transfer">
+          <button className="transfer-button" onClick={handleTransferOwnership}>
             Transfer Ownership
           </button>
         </div>
       )}
 
-      <ul className="list-group mt-4">
+      <ul className="member-list mt-4">
         {groupDetails.members.map((member) => (
           <li key={member._id} className="list-group-item">
-            {member.username} (Member)
-            {groupDetails.owner === member._id && " - Owner"}
-            {member.isModerator && " - Moderator"}
-            {groupDetails.owner === currentUser._id && (
-              <>
-                <button
-                  className="button"
-                  onClick={() => handleKickMember(member._id)}
-                >
-                  Kick
-                </button>
-                {!member.isModerator && (
+            <div className="member-info">
+              <img
+                src={member.avatar}
+                alt={`${member.username}'s avatar`}
+                className="member-avatar"
+              />
+              <Link to={`/profile/${member._id}`}>{member.username}</Link>
+            </div>
+            <div className="member-actions">
+              {groupDetails.owner === currentUser._id && (
+                <>
                   <button
-                    className="button"
-                    onClick={() => handlePromoteMember(member._id)}
+                    className="button kick-button"
+                    onClick={() => handleKickMember(member._id)}
                   >
-                    Promote
+                    Kick
                   </button>
-                )}
-                {member.isModerator && (
-                  <button
-                    className="button"
-                    onClick={() => handleDemoteMember(member._id)}
-                  >
-                    Demote
-                  </button>
-                )}
-              </>
-            )}
+                  {!member.isModerator && (
+                    <button
+                      className="button promote-button"
+                      onClick={() => handlePromoteMember(member._id)}
+                    >
+                      Promote
+                    </button>
+                  )}
+                  {member.isModerator && (
+                    <button
+                      className="button demote-button"
+                      onClick={() => handleDemoteMember(member._id)}
+                    >
+                      Demote
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
           </li>
         ))}
       </ul>
@@ -265,7 +293,7 @@ const GamingGroupDetails = () => {
                   </small>
                   {currentUser && currentUser._id === message.sender?._id && (
                     <button
-                      className="button"
+                      className="delete-button"
                       onClick={() => handleDeleteMessage(message._id)}
                     >
                       Delete
@@ -279,16 +307,15 @@ const GamingGroupDetails = () => {
       </div>
       <input
         type="text"
-        className="form-control mt-4"
+        className="input-message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button className="button" onClick={handleSendMessage}>
+      <button className="send-message-button" onClick={handleSendMessage}>
         Send Message
       </button>
     </div>
   );
 };
-
 
 export default GamingGroupDetails;
