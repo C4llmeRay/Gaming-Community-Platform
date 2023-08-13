@@ -21,8 +21,7 @@ const CreateGamingGroup = () => {
   const handleCreateGroup = async () => {
     try {
       const createdGroup = await createGamingGroup(formData);
-      const groupId = createdGroup._id; // Assuming the group ID is stored in the _id field
-
+      const groupId = createdGroup._id; 
       // After successfully creating the group, navigate to the group's details page with the correct groupId
       navigate(`/groups/${groupId}`);
     } catch (error) {

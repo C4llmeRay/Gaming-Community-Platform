@@ -7,7 +7,7 @@ import {
   getConversationMessages,
 } from "../api";
 import { io } from "socket.io-client";
-import '../styles/DirectMessages.css'; 
+import "../styles/DirectMessages.css";
 
 const DirectMessages = ({ userId }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -48,7 +48,7 @@ const DirectMessages = ({ userId }) => {
 
   useEffect(() => {
     if (conversationId) {
-      const newSocket = io("http://localhost:5000", {
+      const newSocket = io("http://localhost:5000/direct-messages", {
         query: { conversationId: conversationId[0] }, // Access the first element of the conversationId array
       });
 
@@ -99,9 +99,9 @@ const DirectMessages = ({ userId }) => {
       } else {
         // If conversationId is not available, fetch or create the conversation first
         const conversation = await getOrCreateConversation(userId);
-        setConversationId(conversation._id); // Update this line
+        setConversationId(conversation._id);
         // Then send the direct message to the server, passing the conversation ID as a URL parameter
-        await sendDirectMessage(conversation._id, messageObject); // Update this line
+        await sendDirectMessage(conversation._id, messageObject);
       }
       setMessage("");
     } catch (error) {

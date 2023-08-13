@@ -25,7 +25,7 @@ const notificationSocket = (server) => {
       socket.leave(userId);
       console.log(`User ${userId} left the room`);
     });
-    
+
     setInterval(() => {
       const notificationData = {
         message: "This is a sample notification",

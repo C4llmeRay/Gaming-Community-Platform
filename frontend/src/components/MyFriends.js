@@ -7,6 +7,7 @@ import "../styles/MyFriends.css";
 const MyFriends = () => {
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -28,7 +29,6 @@ const MyFriends = () => {
     };
 
     if (currentUserId) {
-      // Only call fetchCurrentUserProfile if currentUserId is available
       fetchCurrentUserProfile();
     }
   }, [currentUserId]);
@@ -57,14 +57,25 @@ const MyFriends = () => {
     return <div className="loading-message">Loading...</div>;
   }
 
+   const filteredFriends = currentUserProfile.friends.filter((friend) =>
+     friend.username.toLowerCase().includes(searchQuery.toLowerCase())
+   );
+
   return (
     <div className="my-friends-component">
       <h2 className="my-friends-title">My Friends</h2>
-      {currentUserProfile.friends.length === 0 ? (
-        <p className="no-friends-message">You have no friends yet.</p>
+      <input
+        type="text"
+        placeholder="Search friends"
+        className="search-bar"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      {filteredFriends.length === 0 ? (
+        <p className="no-friends-message">No matching friends found.</p>
       ) : (
         <ul className="friends-list">
-          {currentUserProfile.friends.map((friend) => (
+          {filteredFriends.map((friend) => (
             <li key={friend.userId} className="friend-item">
               <Link to={`/profile/${friend.userId}`} className="friend-link">
                 <img

@@ -1,6 +1,7 @@
 .user-joined-sessions-container {
     width: 100%;
     max-width: auto;
+    height: 95%;
     background-color: #f4f4f4;
     color: #333;
     padding: 20px;

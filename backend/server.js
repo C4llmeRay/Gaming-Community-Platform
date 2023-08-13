@@ -14,7 +14,6 @@ const dotenv = require("dotenv");
 const http = require("http");
 const io = require("socket.io")(http);
 const { directMessagesSocket } = require("./sockets/directMessagesSocket");
-const { chatSocket } = require("./sockets/chatSocket");
 
 dotenv.config();
 
@@ -43,7 +42,7 @@ app.use("/directChatMessages", directChatMessagesRoutes);
 const server = http.createServer(app);
 
 // Initialize the chatSocket and directMessagesSocket passing the server instance
-chatSocket(server);
+// chatSocket(server);
 directMessagesSocket(server);
 
 // Start the server

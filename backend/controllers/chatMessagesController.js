@@ -1,5 +1,8 @@
-const ChatMessage = require('../models/chatMessage');
-const { getChatSocket } = require('../sockets/chatSocket');
+const ChatMessage = require("../models/chatMessage");
+const {
+  directMessagesSocket,
+  getDirectMessagesSocket,
+} = require("../sockets/directMessagesSocket");
 
 const sendMessage = async (req, res) => {
   try {
@@ -12,10 +15,8 @@ const sendMessage = async (req, res) => {
       sender,
     });
 
-    const chatSocket = getChatSocket();
-
-    // Send the chat message to connected clients
-    chatSocket.to(groupId).emit("message", message);
+    const chatSocket = getDirectMessagesSocket();
+    chatSocket.of("/chat").to(groupId).emit("message", message);
 
     res.status(200).json({ message: "Chat message sent successfully" });
   } catch (error) {
@@ -29,12 +30,15 @@ const getMessagesByGroupId = async (req, res) => {
     const groupId = req.params.groupId;
 
     // Retrieve all chat messages for the given groupId
-    const chatMessages = await ChatMessage.find({ groupId }).populate('sender', 'username');
+    const chatMessages = await ChatMessage.find({ groupId }).populate(
+      "sender",
+      "username"
+    );
 
     res.status(200).json(chatMessages);
   } catch (error) {
-    console.error('Error retrieving chat messages:', error);
-    res.status(500).json({ error: 'Failed to retrieve chat messages' });
+    console.error("Error retrieving chat messages:", error);
+    res.status(500).json({ error: "Failed to retrieve chat messages" });
   }
 };
 
@@ -47,27 +51,27 @@ const deleteMessage = async (req, res) => {
 
     // Check if the message exists
     if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
+      return res.status(404).json({ error: "Message not found" });
     }
-
-  
 
     // Check if the user making the request is the owner of the message or has necessary privileges
     if (message.sender.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'You are not allowed to delete this message' });
+      return res
+        .status(403)
+        .json({ error: "You are not allowed to delete this message" });
     }
 
     // Delete the message
     const result = await ChatMessage.deleteOne({ _id: messageId });
 
     if (result.deletedCount === 1) {
-      return res.status(200).json({ message: 'Message deleted successfully' });
+      return res.status(200).json({ message: "Message deleted successfully" });
     } else {
-      return res.status(500).json({ error: 'Failed to delete chat message' });
+      return res.status(500).json({ error: "Failed to delete chat message" });
     }
   } catch (error) {
-    console.error('Error deleting chat message:', error);
-    res.status(500).json({ error: 'Failed to delete chat message' });
+    console.error("Error deleting chat message:", error);
+    res.status(500).json({ error: "Failed to delete chat message" });
   }
 };
 

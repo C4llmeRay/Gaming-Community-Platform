@@ -35,15 +35,12 @@ const getOrCreateConversation = async (req, res) => {
   try {
     const user1 = req.user._id;
     const user2 = req.params.userId;
-    console.log("U1", user1);
-    console.log("U2", user2);
 
     const existingConversation = await Conversation.findOne({
       participants: { $all: [user1, user2] },
     });
 
     if (existingConversation) {
-      console.log("Existing conversation found");
       return res.json(existingConversation);
     }
 
@@ -66,9 +63,6 @@ const sendDirectMessage = async (req, res) => {
     const { text, receiver } = req.body;
     const sender = req.user._id;
     const conversationId = req.params.conversationId;
-    console.log("content:", text);
-    console.log("receiver:", receiver);
-    console.log("sender:", sender);
 
     // Save the direct chat message to the database
     const message = await DirectChatMessage.create({
@@ -83,10 +77,12 @@ const sendDirectMessage = async (req, res) => {
     await conversation.save();
 
     // Get the chatSocket instance
-    const chatSocket = getDirectMessagesSocket();
-
+    const directMessagesSocket = getDirectMessagesSocket();
     // Send the direct chat message to connected clients
-    chatSocket.to(conversationId).emit("direct_message", message);
+    directMessagesSocket
+      .of("/direct-messages")
+      .to(conversationId)
+      .emit("direct_message", message);
 
     res.status(200).json({ message: "Direct chat message sent successfully" });
   } catch (error) {

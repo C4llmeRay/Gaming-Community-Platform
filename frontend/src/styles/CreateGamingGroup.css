@@ -2,6 +2,7 @@
 .create-group-container {
     width: 100%;
     max-width: auto;
+    height: 95%;
     background-color: #f8f8f8;
     color: #333;
     padding: 20px;
