@@ -3,8 +3,9 @@ import jwt_decode from "jwt-decode";
 import {
   sendDirectMessage,
   getOrCreateConversation,
-  deleteChatMessage,
+  deleteDirectMessage,
   getConversationMessages,
+  getUserProfile,
 } from "../api";
 import { io } from "socket.io-client";
 import "../styles/DirectMessages.css";
@@ -71,12 +72,31 @@ const DirectMessages = ({ userId }) => {
   useEffect(() => {
     if (directMessagesSocket) {
       // Listen for incoming direct messages
-      directMessagesSocket.on("direct_message", (message) => {
+      directMessagesSocket.on("direct_message", async (message) => {
         console.log("Received direct message:", message);
-        setConversationMessages((prevMessages) => [...prevMessages, message]);
+
+        try {
+          // Fetch the sender's username
+          const senderProfile = await getUserProfile(message.sender._id);
+          const newUsername = senderProfile.username;
+
+          // Update the received message with the sender's username
+          const updatedMessage = {
+            ...message,
+            sender: { ...message.sender, username: newUsername },
+          };
+
+          setConversationMessages((prevMessages) => [
+            ...prevMessages,
+            updatedMessage,
+          ]);
+        } catch (error) {
+          console.error("Error fetching sender's username:", error);
+        }
       });
     }
   }, [directMessagesSocket]);
+
 
   useEffect(() => {
     setConversationMessages((prevMessages) =>
@@ -112,7 +132,7 @@ const DirectMessages = ({ userId }) => {
   const handleDeleteMessage = async (messageId) => {
     try {
       // Delete the message from the server
-      await deleteChatMessage(messageId);
+      await deleteDirectMessage(messageId);
 
       // Update the state to remove the deleted message from the UI for real-time messages
       setConversationMessages((prevMessages) =>
@@ -127,7 +147,6 @@ const DirectMessages = ({ userId }) => {
     <div className="direct-messages-container">
       <h2>Direct Messages</h2>
       <div className="chat-messages">
-        <h3>Direct Chat Messages:</h3>
         {Array.isArray(conversationMessages) &&
         conversationMessages.length === 0 ? (
           <p>No direct messages</p>

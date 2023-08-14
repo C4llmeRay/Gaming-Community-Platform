@@ -635,7 +635,6 @@ const getOrCreateConversation = async (userId) => {
     throw error.response.data;
   }
 };
-
 // Function to delete a direct chat message
 const deleteDirectMessage = async (messageId) => {
   try {
@@ -644,6 +643,7 @@ const deleteDirectMessage = async (messageId) => {
     throw error.response.data;
   }
 };
+
 export {
   setAuthToken,
   getAllUsers,

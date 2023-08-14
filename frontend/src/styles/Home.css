@@ -3,6 +3,7 @@
     flex-direction: column;
     min-height: 100vh;
     padding: 20px;
+    font-family: Arial, sans-serif;
 }
 
 .section-top {
@@ -86,6 +87,7 @@
     margin-bottom: 20px;
 }
 
+
 .cta-button {
     display: inline-block;
     background-color: #ff0000;
@@ -99,4 +101,37 @@
 
 .cta-button:hover {
     background-color: #e60000;
+}
+/* About Us section */
+.about-us-section {
+    text-align: center;
+    padding: 2px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.about-us-section h2 {
+    font-size: 24px;
+    color: #3d0000;
+    margin-bottom: 10px;
+}
+
+.about-us-section p {
+    font-size: 20px;
+    color: #3d0000;
+    line-height: 1.5;
+}
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .about-us-section {
+        padding: 15px;
+    }
+
+    .about-us-section h2 {
+        font-size: 20px;
+    }
+
+    .about-us-section p {
+        font-size: 18px;
+    }
 }

@@ -11,5 +11,8 @@ router.get("/:conversationId", authMiddleware, directChatMessagesController.getC
 router.get("/user/:userId", authMiddleware, directChatMessagesController.getAllConversations);
 // Get or create a conversation between two users
 router.post("/user/:userId", authMiddleware, directChatMessagesController.getOrCreateConversation);
+// Delete a direct chat message
+router.delete("/:messageId", authMiddleware, directChatMessagesController.deleteDirectMessage);
+
 
 module.exports = router;

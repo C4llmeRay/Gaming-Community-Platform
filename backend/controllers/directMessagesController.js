@@ -6,12 +6,18 @@ const { getDirectMessagesSocket } = require("../sockets/directMessagesSocket");
 const getConversationMessages = async (req, res) => {
   try {
     const conversationId = req.params.conversationId;
-    const conversation = await Conversation.findById(conversationId).populate(
-      "directChatMessages"
-    );
+    const conversation = await Conversation.findById(conversationId).populate({
+      path: "directChatMessages",
+      populate: {
+        path: "sender",
+        select: "username", 
+      },
+    });
+
     if (!conversation) {
       return res.status(404).json({ error: "Conversation not found" });
     }
+
     res.status(200).json({ messages: conversation.directChatMessages });
   } catch (error) {
     console.error("Error fetching conversation messages:", error);
@@ -95,15 +101,12 @@ const deleteDirectMessage = async (req, res) => {
   try {
     const messageId = req.params.messageId;
     const userId = req.user._id;
-
-    // Find the direct message from the database
+    // Find the direct message from the database using the Mongoose model
     const message = await DirectChatMessage.findById(messageId);
-
     // Check if the message exists
     if (!message) {
       return res.status(404).json({ error: "Message not found" });
     }
-
     // Check if the user making the request is the sender or receiver of the message
     if (
       message.sender.toString() !== userId.toString() &&
@@ -113,16 +116,15 @@ const deleteDirectMessage = async (req, res) => {
         .status(403)
         .json({ error: "You are not allowed to delete this message" });
     }
-
-    // Delete the message
-    await message.remove();
-
+    // Delete the message using the Mongoose model's remove method
+await DirectChatMessage.deleteOne({ _id: messageId });
     res.status(200).json({ message: "Message deleted successfully" });
   } catch (error) {
     console.error("Error deleting direct message:", error);
     res.status(500).json({ error: "Failed to delete direct message" });
   }
 };
+
 
 module.exports = {
   sendDirectMessage,

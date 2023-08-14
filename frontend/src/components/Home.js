@@ -29,6 +29,18 @@ const Home = ({ isLoggedIn }) => {
           </Link>
         </div>
       </div>
+      <div className="about-us-section">
+        <h2>About Us</h2>
+        <p>
+          Welcome to Your Gaming Community, where gamers come together to
+          connect, collaborate, and conquer virtual worlds. Our mission is to
+          provide a platform for gamers of all levels to discover new friends,
+          join exciting gaming groups, and participate in thrilling gaming
+          sessions. Whether you're a casual player or a competitive enthusiast,
+          you'll find a welcoming and diverse community here. Join us on this
+          epic journey through the realms of gaming!
+        </p>
+      </div>
 
       <div className="sections-container">
         <div className="section">
