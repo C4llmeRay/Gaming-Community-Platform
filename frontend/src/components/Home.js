@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import backgroundImage from "../images/background.jpg";
 import joinGroupImage from "../images/group.jpg";
@@ -6,7 +6,14 @@ import createGroupImage from "../images/group2.jpg";
 import joinSessionImage from "../images/Session.jpg";
 import "../styles/Home.css";
 
-const Home = ({ isLoggedIn }) => {
+const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if there's a token in local storage
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token); // Set isLoggedIn to true if token is present
+  }, []);
   return (
     <div className="container">
       <div
