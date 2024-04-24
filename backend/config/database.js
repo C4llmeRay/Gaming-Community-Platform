@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const DB_URI = 'mongodb+srv://chaaliaramy:Gj1tNLyVXKmTgvTI@cluster0.us60xnp.mongodb.net/?retryWrites=true&w=majority';
+const DB_URI =
+  "mongodb+srv://chaaliaramy:Gj1tNLyVXKmTgvTI@cluster0.us60xnp.mongodb.net/?retryWrites=true&w=majority";
 
 const connectDB = async () => {
   try {
@@ -8,10 +9,10 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error.message);
-    process.exit(1); // Exit the process with a failure status
+    console.error("Error connecting to MongoDB:", error.message);
+    process.exit(1);
   }
 };
 

@@ -38,14 +38,10 @@ app.use("/avatars", avatarRoutes);
 app.use("/notifications", notification);
 app.use("/directChatMessages", directChatMessagesRoutes);
 
-// Create an HTTP server using the Express app
 const server = http.createServer(app);
 
-// Initialize the chatSocket and directMessagesSocket passing the server instance
-// chatSocket(server);
 directMessagesSocket(server);
 
-// Start the server
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { createGamingGroup } from "../api";
 import "../styles/CreateGamingGroup.css";
 
-const CreateGamingGroup = () => {
+const CreateGamingGroup = ({ isLoggedIn }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     rules: "",
-    privacy: "public", // Privacy is set to 'public'
+    privacy: "public",
     game: "",
   });
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,9 +20,13 @@ const CreateGamingGroup = () => {
   };
 
   const handleCreateGroup = async () => {
+    if (!isLoggedIn) {
+      setShowWarning(true);
+      return;
+    }
     try {
       const createdGroup = await createGamingGroup(formData);
-      const groupId = createdGroup._id; 
+      const groupId = createdGroup._id;
       // After successfully creating the group, navigate to the group's details page with the correct groupId
       navigate(`/groups/${groupId}`);
     } catch (error) {
@@ -32,6 +37,14 @@ const CreateGamingGroup = () => {
   return (
     <div className="create-group-container">
       <h2 className="create-group-heading">Create a Gaming Group</h2>
+      {showWarning && (
+        <p
+          className="warning-message"
+          style={{ color: "red", fontSize: "12px" }}
+        >
+          You must be logged in to create a group.
+        </p>
+      )}
       <label htmlFor="name" className="create-group-label">
         Name:
       </label>
